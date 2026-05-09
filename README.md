@@ -102,5 +102,16 @@ npm install
 npm run start:dev
 
 ## frontend-admin
+
+```bash
+cd frontend-admin
 npm run dev
+
+## smart-hiking-mobile
+
+```bash
+cd smart-hiking-mobile
+npx expo start
+
+
 
