@@ -53,7 +53,7 @@ Smart Hiking Tanggamus adalah platform digital untuk registrasi pendakian Gunung
 
 Swagger API:
 
-👉 https://manhunt-arrange-repair.ngrok-free.dev/api
+👉 https://manhunt-arrange-repair.ngrok-free.dev/api - klik visite
 
 ---
 
