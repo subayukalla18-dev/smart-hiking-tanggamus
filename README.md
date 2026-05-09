@@ -2,11 +2,11 @@
 
 Smart Hiking Tanggamus adalah platform digital untuk registrasi pendakian Gunung Tanggamus secara online.
 
-## 👨‍💻 Team PBS
+## 👨‍💻 Team HANDICAP
 
-- Bayu Kalla → Backend Developer
-- Imam → Frontend CMS Developer
-- Radityo → Mobile Developer
+- Subayu Kalla → Backend Developer
+- Imam Ali Saputra → Frontend CMS Developer
+- Muhammad Radityo → Mobile Developer
 
 ---
 
