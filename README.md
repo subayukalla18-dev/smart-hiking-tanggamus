@@ -74,14 +74,14 @@ Menggunakan JWT Authentication.
 <tr>
 <td align="center">
 
-## Login Screen
+## Register Screen
 <img src="https://github.com/user-attachments/assets/14972e0a-0fdd-462b-8ef7-5e09e8c25d3c" width="250"/>
 
 </td>
 
 <td align="center">
 
-## Register Screen
+## Login Screen
 <img src="https://github.com/user-attachments/assets/88aa90a4-ae65-465d-8f6c-a19e2f165b66" width="250"/>
 
 </td>
