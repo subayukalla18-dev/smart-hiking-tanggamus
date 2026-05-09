@@ -101,15 +101,4 @@ cd backend
 npm install
 npm run start:dev
 
-## frontend-admin
-
-cd frontend-admin
-npm run dev
-
-## smart-hiking-mobile
-
-cd smart-hiking-mobile
-npx expo start
-
-
 
