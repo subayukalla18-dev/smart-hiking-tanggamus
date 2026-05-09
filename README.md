@@ -94,11 +94,19 @@ Menggunakan JWT Authentication.
 
 # ⚙ Installation
 
-## Backend
+## Backend/frontend
 
 ```bash
 cd backend
 npm install
 npm run start:dev
+
+cd frontend-admin
+npm install
+npm run dev
+
+cd smart-hiking-mobile
+npm install
+npx expo start
 
 
