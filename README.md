@@ -70,7 +70,7 @@ Menggunakan JWT Authentication.
 
 
 ## Mobile App
-<img width="739" height="1600" alt="WhatsApp Image 2026-05-09 at 19 10 54 (1)" src="https://github.com/user-attachments/assets/1ab47591-bfd3-48d6-ad88-b3a4f9b4c356" />
+<img src="https://github.com/user-attachments/assets/1ab47591-bfd3-48d6-ad88-b3a4f9b4c356" width="250" />
 
 
 ---
