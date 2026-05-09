@@ -66,10 +66,12 @@ Menggunakan JWT Authentication.
 # 📸 Screenshots
 
 ## CMS Dashboard
-(Add screenshot here)
+<img width="1600" height="1000" alt="asset dashboard imam" src="https://github.com/user-attachments/assets/a95b1b27-375d-4bb9-8bfb-7283561ddaa9" />
+
 
 ## Mobile App
-(Add screenshot here)
+<img width="739" height="1600" alt="WhatsApp Image 2026-05-09 at 19 10 54 (1)" src="https://github.com/user-attachments/assets/1ab47591-bfd3-48d6-ad88-b3a4f9b4c356" />
+
 
 ---
 
@@ -81,3 +83,7 @@ Menggunakan JWT Authentication.
 cd backend
 npm install
 npm run start:dev
+
+## frontend-admin
+npm run dev
+
