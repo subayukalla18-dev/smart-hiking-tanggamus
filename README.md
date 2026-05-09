@@ -71,6 +71,7 @@ Menggunakan JWT Authentication.
 
 ## Mobile App
 <img src="https://github.com/user-attachments/assets/1ab47591-bfd3-48d6-ad88-b3a4f9b4c356" width="250" />
+<img src="https://github.com/user-attachments/assets/1ab47591-bfd3-48d6-ad88-b3a4f9b4c356" width="250" />
 
 
 ---
