@@ -19,6 +19,16 @@ export class HttpExceptionFilter implements ExceptionFilter {
 
     const request = ctx.getRequest<Request>();
 
+    // 🔥 FIX CORS HEADER
+    response.header('Access-Control-Allow-Origin', '*');
+
+    response.header(
+      'Access-Control-Allow-Methods',
+      'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    );
+
+    response.header('Access-Control-Allow-Headers', '*');
+
     // 🔥 DEFAULT
     let status = HttpStatus.INTERNAL_SERVER_ERROR;
 

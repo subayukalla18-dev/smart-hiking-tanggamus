@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const api = axios.create({
   baseURL:
-    "http://192.168.1.14:3001",
+    "https://dish-weed-beds-airports.trycloudflare.com",
 });
 
 // AUTO TOKEN
@@ -12,6 +12,8 @@ api.interceptors.request.use(
 
     const token =
       localStorage.getItem("token");
+
+    console.log("TOKEN =", token);
 
     if (token) {
 
