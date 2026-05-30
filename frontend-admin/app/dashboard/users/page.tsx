@@ -71,11 +71,15 @@ export default function UsersPage() {
           response.data.data || []
         );
 
-      } catch (error: any) {
+      } catch (error: unknown) {
 
         console.log(
           "ERROR USERS =",
-          error?.response?.data || error
+          (error as {
+            response?: {
+              data?: unknown;
+            };
+          })?.response?.data || error
         );
 
       } finally {

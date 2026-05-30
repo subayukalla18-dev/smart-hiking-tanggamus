@@ -1,4 +1,10 @@
+"use client";
+
+import { useEffect, useState } from "react";
+
 import Sidebar from "../../../components/Sidebar";
+
+import { api } from "../../../services/api";
 
 import {
   ClipboardList,
@@ -7,34 +13,118 @@ import {
   XCircle,
 } from "lucide-react";
 
+type Booking = {
+  id: number;
+
+  nik: string;
+
+  phone: string;
+
+  status: string;
+
+  hikingDate: string;
+
+  totalPerson: number;
+
+  address: string;
+};
+
 export default function BookingPage() {
 
-  const bookings = [
-    {
-      id: 1,
-      nama: "Budi Santoso",
-      tanggal: "05 Mei 2026",
-      status: "Pending",
-    },
-    {
-      id: 2,
-      nama: "Andi Saputra",
-      tanggal: "06 Mei 2026",
-      status: "Approved",
-    },
-    {
-      id: 3,
-      nama: "Reza Firmansyah",
-      tanggal: "07 Mei 2026",
-      status: "Rejected",
-    },
-  ];
+  // STATE
+  const [bookings, setBookings] =
+    useState<Booking[]>([]);
+
+  const [loading, setLoading] =
+    useState(true);
+
+  // FETCH BOOKINGS
+  useEffect(() => {
+
+    const fetchBookings = async () => {
+
+      try {
+
+        // GET TOKEN
+        const token =
+          localStorage.getItem("token");
+
+        // CHECK TOKEN
+        if (!token) {
+
+          console.log(
+            "TOKEN TIDAK ADA"
+          );
+
+          setLoading(false);
+
+          return;
+        }
+
+        // REQUEST API
+        const response = await api.get(
+          "/booking?limit=10&page=1",
+          {
+            headers: {
+              Authorization:
+                `Bearer ${token}`,
+            },
+          }
+        );
+
+        console.log(
+          "BOOKINGS RESPONSE =",
+          response.data
+        );
+
+        // SET BOOKINGS
+        setBookings(
+          response.data.data || []
+        );
+
+      } catch (error: unknown) {
+
+        console.log(
+          "ERROR BOOKINGS =",
+          (error as {
+            response?: {
+              data?: unknown;
+            };
+          })?.response?.data || error
+        );
+
+      } finally {
+
+        setLoading(false);
+
+      }
+    };
+
+    fetchBookings();
+
+  }, []);
+
+  // LOADING
+  if (loading) {
+
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-100">
+
+        <div className="text-2xl font-bold animate-pulse">
+          Loading Bookings...
+        </div>
+
+      </div>
+    );
+  }
 
   return (
     <div className="flex min-h-screen bg-gradient-to-br from-gray-100 to-gray-200">
 
+      {/* SIDEBAR */}
       <Sidebar />
 
+      {/* MAIN */}
       <main className="flex-1 p-8">
 
         {/* HEADER */}
@@ -112,11 +202,15 @@ export default function BookingPage() {
                 <tr className="border-b border-gray-200 text-left">
 
                   <th className="pb-5 text-gray-500">
-                    Nama
+                    NIK
                   </th>
 
                   <th className="pb-5 text-gray-500">
-                    Tanggal
+                    Phone
+                  </th>
+
+                  <th className="pb-5 text-gray-500">
+                    Total Person
                   </th>
 
                   <th className="pb-5 text-gray-500">
@@ -133,62 +227,97 @@ export default function BookingPage() {
 
               <tbody>
 
-                {bookings.map((booking) => (
+                {bookings.length > 0 ? (
 
-                  <tr
-                    key={booking.id}
-                    className="border-b border-gray-100 hover:bg-gray-50 transition"
-                  >
+                  bookings.map((booking) => (
 
-                    <td className="py-6 font-semibold text-black">
-                      {booking.nama}
-                    </td>
+                    <tr
+                      key={booking.id}
+                      className="border-b border-gray-100 hover:bg-gray-50 transition"
+                    >
 
-                    <td className="text-gray-600">
-                      {booking.tanggal}
-                    </td>
+                      {/* NIK */}
+                      <td className="py-6 font-semibold text-black">
 
-                    <td>
+                        {booking.nik}
 
-                      <span
-                        className={`px-4 py-2 rounded-full text-sm font-medium
-                          ${
-                            booking.status === "Approved"
-                              ? "bg-green-100 text-green-700"
-                              : booking.status === "Pending"
-                              ? "bg-yellow-100 text-yellow-700"
-                              : "bg-red-100 text-red-700"
-                          }
-                        `}
-                      >
-                        {booking.status}
-                      </span>
+                      </td>
 
-                    </td>
+                      {/* PHONE */}
+                      <td className="text-gray-600">
 
-                    <td className="space-x-2">
+                        {booking.phone}
 
-                      <button className="bg-green-500 text-white px-4 py-2 rounded-xl hover:bg-green-600 transition inline-flex items-center gap-2">
+                      </td>
 
-                        <CheckCircle size={18} />
+                      {/* TOTAL PERSON */}
+                      <td className="text-gray-600">
 
-                        Approve
+                        {booking.totalPerson}
 
-                      </button>
+                      </td>
 
-                      <button className="bg-red-500 text-white px-4 py-2 rounded-xl hover:bg-red-600 transition inline-flex items-center gap-2">
+                      {/* STATUS */}
+                      <td>
 
-                        <XCircle size={18} />
+                        <span
+                          className={`
+                            px-4 py-2 rounded-full text-sm font-medium
+                            ${
+                              booking.status === "FINISHED"
+                                ? "bg-green-100 text-green-700"
+                                : booking.status === "PENDING"
+                                ? "bg-yellow-100 text-yellow-700"
+                                : "bg-red-100 text-red-700"
+                            }
+                          `}
+                        >
 
-                        Reject
+                          {booking.status}
 
-                      </button>
+                        </span>
 
+                      </td>
+
+                      {/* ACTION */}
+                      <td className="space-x-2">
+
+                        <button className="bg-green-500 text-white px-4 py-2 rounded-xl hover:bg-green-600 transition inline-flex items-center gap-2">
+
+                          <CheckCircle size={18} />
+
+                          Approve
+
+                        </button>
+
+                        <button className="bg-red-500 text-white px-4 py-2 rounded-xl hover:bg-red-600 transition inline-flex items-center gap-2">
+
+                          <XCircle size={18} />
+
+                          Reject
+
+                        </button>
+
+                      </td>
+
+                    </tr>
+
+                  ))
+
+                ) : (
+
+                  <tr>
+
+                    <td
+                      colSpan={5}
+                      className="text-center py-10 text-gray-500"
+                    >
+                      Data booking tidak ditemukan
                     </td>
 
                   </tr>
 
-                ))}
+                )}
 
               </tbody>
 
