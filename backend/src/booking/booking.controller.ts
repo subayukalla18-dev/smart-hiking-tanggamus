@@ -10,6 +10,7 @@ import {
   Query,
   UseInterceptors,
   UploadedFile,
+  ParseIntPipe,
 } from '@nestjs/common';
 
 import type { Request, Express } from 'express';
@@ -29,6 +30,8 @@ import { RolesGuard } from '../auth/roles.guard';
 import { Roles } from '../auth/roles.decorator';
 
 import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { extname } from 'path';
 
 // DTO IMPORT
 import { CreateBookingDto } from './dto/create-booking.dto';
@@ -54,6 +57,20 @@ export class BookingController {
   @UseGuards(JwtAuthGuard)
   getMyBookings(@Req() req: Request) {
     return this.bookingService.findByUser((req as any).user.sub);
+  }
+
+  // 🔥 RIWAYAT PENDAKIAN USER
+  @Get('history')
+  @UseGuards(JwtAuthGuard)
+  getHistory(@Req() req: Request) {
+    return this.bookingService.getHistory((req as any).user.sub);
+  }
+
+  // 🔥 DASHBOARD USER
+  @Get('dashboard')
+  @UseGuards(JwtAuthGuard)
+  getDashboard(@Req() req: Request) {
+    return this.bookingService.getUserDashboard((req as any).user.sub);
   }
 
   @Get('stats')
@@ -101,12 +118,38 @@ export class BookingController {
     );
   }
 
+  // 🔥 CEK SISA KUOTA TANGGAL PENDAKIAN
+  @ApiQuery({
+    name: 'date',
+    required: true,
+    example: '2026-06-10',
+  })
+  @Get('quota')
+  @UseGuards(JwtAuthGuard)
+  getQuota(@Query('date') date: string) {
+    return this.bookingService.getQuota(date);
+  }
+
+  @Get(':id')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('ADMIN')
+  getBookingById(@Param('id', ParseIntPipe) id: number) {
+    return this.bookingService.findOne(id);
+  }
+
   // 🔥 UPLOAD BUKTI PEMBAYARAN
   @Post('upload/:id')
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(
     FileInterceptor('file', {
-      dest: './uploads',
+      storage: diskStorage({
+        destination: './uploads',
+        filename: (req, file, callback) => {
+          const uniqueName = Date.now() + '-' + Math.round(Math.random() * 1e9);
+
+          callback(null, uniqueName + extname(file.originalname));
+        },
+      }),
     }),
   )
   @ApiConsumes('multipart/form-data')

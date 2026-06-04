@@ -45,6 +45,32 @@ export class BookingService {
     });
   }
 
+  // 🔥 CEK KUOTA PENDAKI
+  async getQuota(date: string) {
+    const totalPendaki = await this.prisma.booking.aggregate({
+      _sum: {
+        totalPerson: true,
+      },
+      where: {
+        hikingDate: new Date(date),
+        status: {
+          not: 'REJECTED',
+        },
+      },
+    });
+
+    const usedQuota = totalPendaki._sum.totalPerson || 0;
+
+    const MAX_QUOTA = 100;
+
+    return {
+      date,
+      maxQuota: MAX_QUOTA,
+      usedQuota,
+      remainingQuota: MAX_QUOTA - usedQuota,
+    };
+  }
+
   // 🔥 PAGINATION + FILTER + SEARCH
   findAll(page = 1, limit = 10, status?: string, search?: string) {
     return this.prisma.booking.findMany({
@@ -93,12 +119,88 @@ export class BookingService {
     });
   }
 
+  async findOne(id: number) {
+    const booking = await this.prisma.booking.findUnique({
+      where: {
+        id,
+      },
+
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            role: true,
+          },
+        },
+      },
+    });
+
+    if (!booking) {
+      throw new BadRequestException('Booking tidak ditemukan');
+    }
+
+    return booking;
+  }
+
   findByUser(userId: number) {
     return this.prisma.booking.findMany({
       where: {
         userId,
       },
     });
+  }
+
+  // 🔥 RIWAYAT PENDAKIAN USER
+  async getHistory(userId: number) {
+    return this.prisma.booking.findMany({
+      where: {
+        userId,
+        status: 'FINISHED',
+      },
+
+      orderBy: {
+        hikingDate: 'desc',
+      },
+    });
+  }
+
+  // 🔥 DASHBOARD USER
+  async getUserDashboard(userId: number) {
+    const totalBooking = await this.prisma.booking.count({
+      where: {
+        userId,
+      },
+    });
+
+    const pendingBooking = await this.prisma.booking.count({
+      where: {
+        userId,
+        status: 'PENDING',
+      },
+    });
+
+    const approvedBooking = await this.prisma.booking.count({
+      where: {
+        userId,
+        status: 'APPROVED',
+      },
+    });
+
+    const finishedHike = await this.prisma.booking.count({
+      where: {
+        userId,
+        status: 'FINISHED',
+      },
+    });
+
+    return {
+      totalBooking,
+      pendingBooking,
+      approvedBooking,
+      finishedHike,
+    };
   }
 
   async updateStatus(id: number, status: string) {

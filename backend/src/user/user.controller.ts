@@ -2,11 +2,13 @@ import {
   Controller,
   Get,
   Post,
+  Patch,
   Body,
   UseGuards,
   Delete,
   Param,
   Query,
+  ParseIntPipe,
 } from '@nestjs/common';
 
 import { ApiBearerAuth, ApiTags, ApiQuery } from '@nestjs/swagger';
@@ -19,6 +21,7 @@ import { Roles } from '../auth/roles.decorator';
 
 // DTO IMPORT
 import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @ApiTags('Users')
 @ApiBearerAuth('access-token')
@@ -55,6 +58,23 @@ export class UserController {
   @Post()
   createUser(@Body() body: CreateUserDto) {
     return this.userService.create(body);
+  }
+
+  @Get(':id')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('ADMIN')
+  getUserById(@Param('id', ParseIntPipe) id: number) {
+    return this.userService.findOne(id);
+  }
+
+  @Patch(':id')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('ADMIN')
+  updateUser(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() body: UpdateUserDto,
+  ) {
+    return this.userService.update(id, body);
   }
 
   @Delete(':id')

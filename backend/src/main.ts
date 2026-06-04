@@ -11,6 +11,7 @@ import { ValidationPipe, BadRequestException } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 import cors from 'cors';
+import { join } from 'path';
 
 // 🔥 IMPORT INTERCEPTOR
 import { TransformInterceptor } from './common/interceptors/transform.interceptor';
@@ -72,7 +73,7 @@ async function bootstrap() {
   app.useGlobalFilters(new HttpExceptionFilter());
 
   // 🔥 STATIC FILE
-  app.useStaticAssets('uploads');
+  app.useStaticAssets(join(process.cwd(), 'uploads'));
 
   // 🔥 SWAGGER
   const config = new DocumentBuilder()

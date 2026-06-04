@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const api = axios.create({
   baseURL:
-    "https://dish-weed-beds-airports.trycloudflare.com",
+    "https://duncan-delivered-operators-telephone.trycloudflare.com",
 });
 
 // AUTO TOKEN
