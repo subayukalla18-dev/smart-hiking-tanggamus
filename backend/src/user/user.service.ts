@@ -1,35 +1,49 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { Prisma } from '@prisma/client';
+
+import { Prisma, Role } from '@prisma/client';
+
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserService {
   constructor(private prisma: PrismaService) { }
 
-  findAll(page = 1, limit = 10, search?: string) {
-    return this.prisma.user.findMany({
-      skip: (page - 1) * limit,
-      take: limit,
+  async findAll(page = 1, limit = 10, search?: string) {
+    // WHERE
+    const where = {
+      role: Role.USER,
 
-      where: search
+      ...(search
         ? {
           OR: [
             {
               name: {
                 contains: search,
-                mode: 'insensitive',
+                mode: 'insensitive' as const,
               },
             },
             {
               email: {
                 contains: search,
-                mode: 'insensitive',
+                mode: 'insensitive' as const,
               },
             },
           ],
         }
-        : undefined,
+        : {}),
+    };
+
+    // GET USERS
+    const users = await this.prisma.user.findMany({
+      skip: (page - 1) * limit,
+      take: limit,
+
+      where,
+
+      orderBy: {
+        id: 'desc',
+      },
 
       select: {
         id: true,
@@ -38,6 +52,20 @@ export class UserService {
         role: true,
       },
     });
+
+    // TOTAL
+    const total = await this.prisma.user.count({
+      where,
+    });
+
+    // RETURN
+    return {
+      data: users,
+      total,
+      page,
+      limit,
+      totalPages: Math.ceil(total / limit),
+    };
   }
 
   async create(data: Prisma.UserCreateInput) {
@@ -47,7 +75,7 @@ export class UserService {
       data: {
         ...data,
         password: hashedPassword,
-        role: 'USER',
+        role: Role.USER,
       },
     });
 

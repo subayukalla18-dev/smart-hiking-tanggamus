@@ -1,15 +1,172 @@
 "use client";
 
+import { useEffect, useState } from "react";
+
 import Sidebar from "../../components/Sidebar";
+
 import CountUp from "react-countup";
+
+import Link from "next/link";
+
 import {
   Users,
   ClipboardList,
   Mountain,
   ArrowUpRight,
+  RefreshCw,
 } from "lucide-react";
 
+import { api } from "../../services/api";
+
+interface Booking {
+  id: number;
+  hikingDate: string;
+  status: string;
+  createdAt?: string;
+  user?: {
+    name: string;
+  };
+}
+
 export default function DashboardPage() {
+
+  const [loading, setLoading] = useState(true);
+
+  const [refreshing, setRefreshing] =
+    useState(false);
+
+  const [totalUsers, setTotalUsers] = useState(0);
+
+  const [pendingBookings, setPendingBookings] = useState(0);
+
+  const [activeHikers, setActiveHikers] = useState(0);
+
+  const [recentBookings, setRecentBookings] = useState<Booking[]>([]);
+
+  useEffect(() => {
+
+    fetchDashboard();
+
+    // AUTO REFRESH
+    const interval =
+      setInterval(() => {
+        fetchDashboard(true);
+      }, 5000);
+
+    return () =>
+      clearInterval(interval);
+
+  }, []);
+
+  const fetchDashboard = async (
+    isRefresh = false
+  ) => {
+
+    try {
+
+      if (isRefresh) {
+        setRefreshing(true);
+      } else {
+        setLoading(true);
+      }
+
+      // USERS
+const usersRes =
+  await api.get("/users");
+
+console.log(
+  "USERS DASHBOARD =",
+  usersRes.data
+);
+
+const users =
+  usersRes.data?.data?.data || [];
+
+setTotalUsers(
+  usersRes.data?.data?.total || 0
+);
+
+      // BOOKINGS
+      const bookingsRes =
+        await api.get("/booking");
+
+      const bookings =
+        bookingsRes.data?.data || [];
+
+      // SORT TERBARU
+      const sortedBookings =
+        [...bookings].sort(
+          (a: Booking, b: Booking) =>
+            new Date(
+              b.createdAt || b.hikingDate
+            ).getTime() -
+            new Date(
+              a.createdAt || a.hikingDate
+            ).getTime()
+        );
+
+      // PENDING
+      const pending =
+        bookings.filter(
+          (item: Booking) =>
+            item.status === "PENDING"
+        );
+
+      setPendingBookings(
+        pending.length
+      );
+
+      // ACTIVE
+      const approved =
+        bookings.filter(
+          (item: Booking) =>
+            item.status === "APPROVED"
+        );
+
+      setActiveHikers(
+        approved.length
+      );
+
+      // RECENT
+      setRecentBookings(
+        sortedBookings.slice(0, 5)
+      );
+
+    } catch (error) {
+
+      console.log(
+        "DASHBOARD ERROR =",
+        error
+      );
+
+    } finally {
+
+      setLoading(false);
+
+      setRefreshing(false);
+
+    }
+  };
+
+  const getStatusStyle = (
+    status: string
+  ) => {
+
+    switch (status) {
+
+      case "APPROVED":
+        return "bg-green-100 text-green-700";
+
+      case "REJECTED":
+        return "bg-red-100 text-red-700";
+
+      case "FINISHED":
+        return "bg-blue-100 text-blue-700";
+
+      default:
+        return "bg-yellow-100 text-yellow-700";
+    }
+  };
 
   return (
     <div className="flex min-h-screen bg-gradient-to-br from-gray-100 via-gray-200 to-gray-300">
@@ -37,11 +194,35 @@ export default function DashboardPage() {
 
             </div>
 
-            <div className="bg-black text-white px-5 py-3 rounded-2xl shadow-lg flex items-center gap-2">
+            <div className="flex items-center gap-4">
 
-              Admin Panel
+              {/* REFRESH STATUS */}
+              <div className="flex items-center gap-2 text-sm text-gray-500">
 
-              <ArrowUpRight size={20} />
+                <RefreshCw
+                  size={16}
+                  className={
+                    refreshing
+                      ? "animate-spin"
+                      : ""
+                  }
+                />
+
+                {
+                  refreshing
+                    ? "Refreshing..."
+                    : "Realtime Active"
+                }
+
+              </div>
+
+              <div className="bg-black text-white px-5 py-3 rounded-2xl shadow-lg flex items-center gap-2">
+
+                Admin Panel
+
+                <ArrowUpRight size={20} />
+
+              </div>
 
             </div>
 
@@ -65,10 +246,16 @@ export default function DashboardPage() {
 
                 <h2 className="text-6xl font-bold text-black mt-4">
 
-                  <CountUp
-                    end={120}
-                    duration={2}
-                  />
+                  {
+                    loading
+                      ? "..."
+                      : (
+                        <CountUp
+                          end={totalUsers}
+                          duration={2}
+                        />
+                      )
+                  }
 
                 </h2>
 
@@ -100,10 +287,16 @@ export default function DashboardPage() {
 
                 <h2 className="text-6xl font-bold text-yellow-500 mt-4">
 
-                  <CountUp
-                    end={15}
-                    duration={2}
-                  />
+                  {
+                    loading
+                      ? "..."
+                      : (
+                        <CountUp
+                          end={pendingBookings}
+                          duration={2}
+                        />
+                      )
+                  }
 
                 </h2>
 
@@ -135,10 +328,16 @@ export default function DashboardPage() {
 
                 <h2 className="text-6xl font-bold text-green-600 mt-4">
 
-                  <CountUp
-                    end={32}
-                    duration={2}
-                  />
+                  {
+                    loading
+                      ? "..."
+                      : (
+                        <CountUp
+                          end={activeHikers}
+                          duration={2}
+                        />
+                      )
+                  }
 
                 </h2>
 
@@ -177,11 +376,15 @@ export default function DashboardPage() {
 
             </div>
 
-            <button className="bg-black text-white px-5 py-3 rounded-2xl hover:bg-gray-800 transition shadow-lg">
+            <Link href="/dashboard/bookings">
 
-              Lihat Semua
+              <button className="bg-black text-white px-5 py-3 rounded-2xl hover:bg-gray-800 transition shadow-lg">
 
-            </button>
+                Lihat Semua
+
+              </button>
+
+            </Link>
 
           </div>
 
@@ -212,107 +415,134 @@ export default function DashboardPage() {
 
               <tbody>
 
-                <tr className="border-b border-gray-100 hover:bg-gray-50 transition">
+                {
+                  loading ? (
 
-                  <td className="py-6">
+                    [...Array(5)].map((_, index) => (
 
-                    <div>
+                      <tr
+                        key={index}
+                        className="border-b border-gray-100"
+                      >
 
-                      <h3 className="font-semibold text-black">
-                        Budi Santoso
-                      </h3>
+                        <td className="py-6">
 
-                      <p className="text-sm text-gray-500 mt-1">
-                        Pendaki Gunung Tanggamus
-                      </p>
+                          <div className="animate-pulse">
 
-                    </div>
+                            <div className="h-5 w-40 bg-gray-200 rounded mb-2"></div>
 
-                  </td>
+                            <div className="h-4 w-28 bg-gray-100 rounded"></div>
 
-                  <td className="text-gray-600">
-                    05 Mei 2026
-                  </td>
+                          </div>
 
-                  <td>
+                        </td>
 
-                    <span className="bg-yellow-100 text-yellow-700 px-4 py-2 rounded-full text-sm font-semibold">
+                        <td>
 
-                      Pending
+                          <div className="h-5 w-24 bg-gray-200 rounded animate-pulse"></div>
 
-                    </span>
+                        </td>
 
-                  </td>
+                        <td>
 
-                </tr>
+                          <div className="h-8 w-24 bg-gray-200 rounded-full animate-pulse"></div>
 
-                <tr className="border-b border-gray-100 hover:bg-gray-50 transition">
+                        </td>
 
-                  <td className="py-6">
+                      </tr>
 
-                    <div>
+                    ))
 
-                      <h3 className="font-semibold text-black">
-                        Andi Saputra
-                      </h3>
+                  ) : recentBookings.length > 0 ? (
 
-                      <p className="text-sm text-gray-500 mt-1">
-                        Pendaki Gunung Tanggamus
-                      </p>
+                    recentBookings.map((item) => (
 
-                    </div>
+                      <tr
+                        key={item.id}
+                        className="border-b border-gray-100 hover:bg-gray-50 transition"
+                      >
 
-                  </td>
+                        <td className="py-6">
 
-                  <td className="text-gray-600">
-                    05 Mei 2026
-                  </td>
+                          <div>
 
-                  <td>
+                            <h3 className="font-semibold text-black">
 
-                    <span className="bg-green-100 text-green-700 px-4 py-2 rounded-full text-sm font-semibold">
+                              {
+                                item.user?.name ||
+                                "Pendaki"
+                              }
 
-                      Approved
+                            </h3>
 
-                    </span>
+                            <p className="text-sm text-gray-500 mt-1">
+                              Pendaki Gunung Tanggamus
+                            </p>
 
-                  </td>
+                          </div>
 
-                </tr>
+                        </td>
 
-                <tr className="hover:bg-gray-50 transition">
+                        <td className="text-gray-600">
 
-                  <td className="py-6">
+                          {
+                            new Date(
+                              item.hikingDate
+                            ).toLocaleDateString(
+                              "id-ID"
+                            )
+                          }
 
-                    <div>
+                        </td>
 
-                      <h3 className="font-semibold text-black">
-                        Reza Firmansyah
-                      </h3>
+                        <td>
 
-                      <p className="text-sm text-gray-500 mt-1">
-                        Pendaki Gunung Tanggamus
-                      </p>
+                          <span
+                            className={`px-4 py-2 rounded-full text-sm font-semibold ${getStatusStyle(item.status)}`}
+                          >
 
-                    </div>
+                            {item.status}
 
-                  </td>
+                          </span>
 
-                  <td className="text-gray-600">
-                    06 Mei 2026
-                  </td>
+                        </td>
 
-                  <td>
+                      </tr>
 
-                    <span className="bg-red-100 text-red-700 px-4 py-2 rounded-full text-sm font-semibold">
+                    ))
 
-                      Rejected
+                  ) : (
 
-                    </span>
+                    <tr>
 
-                  </td>
+                      <td 
+                        colSpan={3}
+                        className="py-16 text-center"
+                      >
 
-                </tr>
+                        <div className="flex flex-col items-center justify-center">
+
+                          <ClipboardList
+                            size={50}
+                            className="text-gray-300 mb-4"
+                          />
+
+                          <h3 className="text-lg font-semibold text-gray-500">
+                            Belum ada booking
+                          </h3>
+
+                          <p className="text-sm text-gray-400 mt-1">
+                            Data booking akan muncul disini
+                          </p>
+
+                        </div>
+
+                      </td>
+
+                    </tr>
+
+                  )
+                }
 
               </tbody>
 

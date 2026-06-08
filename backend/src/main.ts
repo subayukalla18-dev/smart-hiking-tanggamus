@@ -10,6 +10,8 @@ import { ValidationPipe, BadRequestException } from '@nestjs/common';
 
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
+import cors from 'cors';
+
 // 🔥 IMPORT INTERCEPTOR
 import { TransformInterceptor } from './common/interceptors/transform.interceptor';
 
@@ -19,10 +21,31 @@ import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
-  // 🔥 CORS FIX
-  app.enableCors({
-    origin: ['http://localhost:3000'],
-    credentials: true,
+  // 🔥 EXPRESS CORS FIX
+  app.use(
+    cors({
+      origin: '*',
+      methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
+      allowedHeaders: '*',
+    }),
+  );
+
+  // 🔥 HANDLE PREFLIGHT
+  app.use((req: any, res: any, next: any) => {
+    res.header('Access-Control-Allow-Origin', '*');
+
+    res.header(
+      'Access-Control-Allow-Methods',
+      'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    );
+
+    res.header('Access-Control-Allow-Headers', '*');
+
+    if (req.method === 'OPTIONS') {
+      return res.sendStatus(200);
+    }
+
+    next();
   });
 
   // 🔥 VALIDATION
@@ -70,7 +93,9 @@ async function bootstrap() {
 
   SwaggerModule.setup('api', app, document);
 
-  await app.listen(3000);
+  await app.listen(3001);
+
+  console.log(`🚀 Server running on http://localhost:3001`);
 }
 
 bootstrap();

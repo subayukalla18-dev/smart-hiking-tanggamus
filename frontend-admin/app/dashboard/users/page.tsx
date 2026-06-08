@@ -9,6 +9,10 @@ import { api } from "../../../services/api";
 import {
   Search,
   Plus,
+  ChevronLeft,
+  ChevronRight,
+  RefreshCw,
+  Users,
 } from "lucide-react";
 
 type User = {
@@ -27,71 +31,161 @@ export default function UsersPage() {
   const [loading, setLoading] =
     useState(true);
 
+  const [refreshing, setRefreshing] =
+    useState(false);
+
+  const [search, setSearch] =
+    useState("");
+
+  const [page, setPage] =
+    useState(1);
+
+  const [limit] =
+    useState(10);
+
+  const [totalPages, setTotalPages] =
+    useState(1);
+
+  const [totalUsers, setTotalUsers] =
+    useState(0);
+
   // FETCH USERS
   useEffect(() => {
 
-    const fetchUsers = async () => {
+    fetchUsers();
 
-      try {
+  }, [page, search]);
 
-        // GET TOKEN
-        const token =
-          localStorage.getItem("token");
+  // AUTO REFRESH
+  useEffect(() => {
 
-        // CHECK TOKEN
-        if (!token) {
+    const interval =
+      setInterval(() => {
+        fetchUsers(true);
+      }, 5000);
 
-          console.log(
-            "TOKEN TIDAK ADA"
-          );
+    return () =>
+      clearInterval(interval);
 
-          setLoading(false);
+  }, [page, search]);
 
-          return;
-        }
+  const fetchUsers = async (
+    isRefresh = false
+  ) => {
 
-        // REQUEST API
-        const response = await api.get(
-          "/users?limit=10&page=1",
-          {
-            headers: {
-              Authorization:
-                `Bearer ${token}`,
-            },
-          }
-        );
+    try {
 
-        console.log(
-          "USERS RESPONSE =",
-          response.data
-        );
+      if (isRefresh) {
+        setRefreshing(true);
+      } else {
+        setLoading(true);
+      }
 
-        // SET USERS
-        setUsers(
-          response.data.data || []
-        );
+      // GET TOKEN
+      const token =
+        localStorage.getItem("token");
 
-      } catch (error: unknown) {
+      // CHECK TOKEN
+      if (!token) {
 
         console.log(
-          "ERROR USERS =",
-          (error as {
-            response?: {
-              data?: unknown;
-            };
-          })?.response?.data || error
+          "TOKEN TIDAK ADA"
         );
-
-      } finally {
 
         setLoading(false);
 
+        return;
       }
-    };
 
-    fetchUsers();
+      // REQUEST API
+      const response = await api.get(
+        `/users?page=${page}&limit=${limit}&search=${search}`,
+        {
+          headers: {
+            Authorization:
+              `Bearer ${token}`,
+          },
+        }
+      );
 
-  }, []);
+      console.log(
+        "USERS RESPONSE =",
+        response.data
+      );
+
+      // GET USERS DATA
+const usersData =
+  response.data?.data?.data || [];
+
+// SET USERS
+setUsers(usersData);
+
+// TOTAL
+const total =
+  response.data?.data?.total ||
+  usersData.length;
+
+      setTotalUsers(total);
+
+      setTotalPages(
+        Math.ceil(total / limit)
+      );
+
+    } catch (error: any) {
+
+      console.log(
+        "ERROR USERS =",
+        error?.response?.data || error
+      );
+
+    } finally {
+
+      setLoading(false);
+
+      setRefreshing(false);
+
+    }
+  };
+
+  // DELETE USER
+  const handleDelete = async (
+    id: number
+  ) => {
+
+    const confirmDelete =
+      confirm(
+        "Yakin ingin menghapus user ini?"
+      );
+
+    if (!confirmDelete) return;
+
+    try {
+
+      const token =
+        localStorage.getItem("token");
+
+      await api.delete(
+        `/users/${id}`,
+        {
+          headers: {
+            Authorization:
+              `Bearer ${token}`,
+          },
+        }
+      );
+
+      // REFRESH
+      fetchUsers();
+
+    } catch (error: any) {
+
+      console.log(
+        "DELETE ERROR =",
+        error?.response?.data || error
+      );
+
+    }
+  };
 
   // LOADING
   if (loading) {
@@ -99,8 +193,15 @@ export default function UsersPage() {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-100">
 
-        <div className="text-2xl font-bold animate-pulse">
+        <div className="flex items-center gap-3 text-2xl font-bold animate-pulse">
+
+          <RefreshCw
+            size={28}
+            className="animate-spin"
+          />
+
           Loading Users...
+
         </div>
 
       </div>
@@ -133,13 +234,37 @@ export default function UsersPage() {
 
             </div>
 
-            <button className="flex items-center gap-2 bg-black text-white px-5 py-3 rounded-2xl hover:bg-gray-800 transition">
+            <div className="flex items-center gap-4">
 
-              <Plus size={20} />
+              {/* REFRESH */}
+              <div className="flex items-center gap-2 text-sm text-gray-500">
 
-              Tambah Pendaki
+                <RefreshCw
+                  size={16}
+                  className={
+                    refreshing
+                      ? "animate-spin"
+                      : ""
+                  }
+                />
 
-            </button>
+                {
+                  refreshing
+                    ? "Refreshing..."
+                    : "Realtime Active"
+                }
+
+              </div>
+
+              <button className="flex items-center gap-2 bg-black text-white px-5 py-3 rounded-2xl hover:bg-gray-800 transition">
+
+                <Plus size={20} />
+
+                Tambah Pendaki
+
+              </button>
+
+            </div>
 
           </div>
 
@@ -158,7 +283,7 @@ export default function UsersPage() {
               </h2>
 
               <p className="text-gray-500 mt-1">
-                Monitoring data pendaki realtime
+                Total {totalUsers} pendaki ditemukan
               </p>
 
             </div>
@@ -174,6 +299,14 @@ export default function UsersPage() {
               <input
                 type="text"
                 placeholder="Cari pendaki..."
+                value={search}
+                onChange={(e) => {
+                  setSearch(
+                    e.target.value
+                  );
+
+                  setPage(1);
+                }}
                 className="bg-transparent outline-none ml-3 w-full"
               />
 
@@ -258,7 +391,14 @@ export default function UsersPage() {
                           Detail
                         </button>
 
-                        <button className="bg-red-500 text-white px-4 py-2 rounded-xl hover:bg-red-600 transition">
+                        <button
+                          onClick={() =>
+                            handleDelete(
+                              user.id
+                            )
+                          }
+                          className="bg-red-500 text-white px-4 py-2 rounded-xl hover:bg-red-600 transition"
+                        >
                           Hapus
                         </button>
 
@@ -274,9 +414,26 @@ export default function UsersPage() {
 
                     <td
                       colSpan={4}
-                      className="text-center py-10 text-gray-500"
+                      className="text-center py-16"
                     >
-                      Data users tidak ditemukan
+
+                      <div className="flex flex-col items-center justify-center">
+
+                        <Users
+                          size={50}
+                          className="text-gray-300 mb-4"
+                        />
+
+                        <h3 className="text-lg font-semibold text-gray-500">
+                          Data users tidak ditemukan
+                        </h3>
+
+                        <p className="text-sm text-gray-400 mt-1">
+                          Coba gunakan keyword lain
+                        </p>
+
+                      </div>
+
                     </td>
 
                   </tr>
@@ -286,6 +443,60 @@ export default function UsersPage() {
               </tbody>
 
             </table>
+
+          </div>
+
+          {/* PAGINATION */}
+          <div className="flex items-center justify-between mt-8">
+
+            <p className="text-gray-500 text-sm">
+
+              Page {page} of {totalPages}
+
+            </p>
+
+            <div className="flex items-center gap-3">
+
+              {/* PREV */}
+              <button
+                onClick={() =>
+                  setPage((prev) =>
+                    Math.max(prev - 1, 1)
+                  )
+                }
+                disabled={page === 1}
+                className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 transition disabled:opacity-50"
+              >
+
+                <ChevronLeft size={18} />
+
+                Prev
+
+              </button>
+
+              {/* NEXT */}
+              <button
+                onClick={() =>
+                  setPage((prev) =>
+                    Math.min(
+                      prev + 1,
+                      totalPages
+                    )
+                  )
+                }
+                disabled={
+                  page === totalPages
+                }
+                className="flex items-center gap-2 px-4 py-2 rounded-xl bg-black text-white hover:bg-gray-800 transition disabled:opacity-50"
+              >
+
+                Next
+
+                <ChevronRight size={18} />
+
+              </button>
+
+            </div>
 
           </div>
 
