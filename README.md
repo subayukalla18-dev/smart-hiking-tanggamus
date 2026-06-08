@@ -1,4 +1,6 @@
-# 🏔 Smart Hiking Tanggamus
+<img width="1600" height="893" alt="dash admin" src="https://github.com/user-attachments/assets/7500b4bb-c8ed-4603-ac8a-e58aab2260b6" />
+# 🏔 Smart Hiking Tanggamus<img width="1600" height="893" alt="dash admin" src="https://github.com/user-attachments/assets/bfbc667f-3a7b-4ca3-b899-0e2986e18341" />
+
 
 Smart Hiking Tanggamus adalah platform digital untuk registrasi pendakian Gunung Tanggamus secara online.
 
@@ -117,7 +119,8 @@ npm run start:dev
 
 cd frontend-admin
 npm install
-npm run dev
+npm run dev<img width="1600" height="893" alt="dash admin" src="https://github.com/user-attachments/assets/914b3184-68bf-4d16-a85b-b2343ebed6b9" />
+
 
 cd smart-hiking-mobile
 npm install
