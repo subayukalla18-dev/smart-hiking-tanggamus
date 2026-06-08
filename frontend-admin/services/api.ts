@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const api = axios.create({
   baseURL:
-    "https://hunt-furniture-enormous-rates.trycloudflare.com",
+    "https://silent-surfing-idea-anyone.trycloudflare.com",
 });
 
 // AUTO TOKEN
