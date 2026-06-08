@@ -23,19 +23,30 @@ import * as Location from "expo-location";
 import { ImageBackground } from "react-native";
 import { router } from "expo-router";
 import { getProfile } from "../api/auth";
-
+import { getMyBookings } from "../api/booking";
 
 export default function DashboardScreen() {
   const pulseAnim =
   useRef(new Animated.Value(1))
   .current;
 
+  const [greeting, setGreeting] =
+  useState("");
+
   const [userName, setUserName] =
   useState("");
+
+  const [activeBooking, setActiveBooking] =
+  useState(null);
+
+  const [recentBookings, setRecentBookings] =
+  useState([]);  
 
   useEffect(() => {
 
   loadProfile();
+  loadBookings();
+  loadGreeting();
 
 }, []);
 
@@ -99,27 +110,32 @@ const loadProfile = async () => {
   }
 };
 
-const fetchProfile =
-  async () => {
+const loadBookings = async () => {
 
   try {
 
     const token =
-      await AsyncStorage.getItem(
-        "token"
-      );
+      await AsyncStorage.getItem("token");
 
     const response =
-      await getProfile(
-        token
+      await getMyBookings(token);
+
+    const bookings =
+      response.data.data || [];
+
+    const active =
+      bookings.find(
+        (item) =>
+          item.status !== "FINISHED"
       );
 
-    console.log(
-      response.data
-    );
+    setActiveBooking(active || null);
 
-    setUserName(
-      response.data.data.name
+    setRecentBookings(
+      bookings
+        .slice()
+        .reverse()
+        .slice(0, 3)
     );
 
   } catch (error) {
@@ -132,6 +148,23 @@ const fetchProfile =
   }
 
 };
+
+const loadGreeting = () => {
+
+  const hour =
+    new Date().getHours();
+  if (hour >= 4 && hour < 11) {
+    setGreeting("Selamat Pagi");
+  } else if (hour >= 11 && hour < 15) {
+    setGreeting("Selamat Siang");
+  } else if (hour >= 15 && hour < 18) {
+    setGreeting("Selamat Sore");
+  } else {
+    setGreeting("Selamat Malam");
+  }
+};
+
+
 
   const { name } = useLocalSearchParams();
   const [weather, setWeather] = useState(null);
@@ -191,6 +224,11 @@ const fetchWeather = async () => {
 
 };
 
+const latestBooking =
+  recentBookings.length > 0
+    ? recentBookings[0]
+    : null;
+
   return (
 
     <LinearGradient
@@ -211,13 +249,11 @@ const fetchWeather = async () => {
             <View>
 
               <Text style={styles.welcome}>
-                Welcome Back
+                {greeting}
               </Text>
 
-              <Text style={styles.userName}>
-
+              <Text style={styles.name}>
                 {userName || "User"}
-
               </Text>
 
             </View>
@@ -351,53 +387,74 @@ const fetchWeather = async () => {
           <View style={styles.infoWrapper}>
 
             <TouchableOpacity
-  style={styles.passCard}
-  onPress={() =>
-    router.push("/ticket")
-  }
->
+            style={styles.passCard}
+            disabled={!activeBooking}
+            onPress={() => {
+              if (activeBooking) {
+                router.push("/ticket");
+              }
+            }}
+          >
 
   <Text style={styles.passLabel}>
-    HIKING PASS
-  </Text>
+  HIKING PASS
+</Text>
 
-  <Text style={styles.passMountain}>
-    Mt. Tanggamus
-  </Text>
+{activeBooking ? (
+  <>
 
-  <Text style={styles.passDate}>
-    12 May 2026
-  </Text>
-
-  <View style={styles.passStatusRow}>
-
-    <Animated.View
-
-  style={[
-
-    styles.activeDot,
-
-    {
-      opacity: pulseAnim,
-      transform: [
-        {
-          scale: pulseAnim,
-        },
-      ],
-    },
-
-  ]}
-/>
-
-    <Text style={styles.passStatus}>
-      APPROVED
+    <Text style={styles.passMountain}>
+      Mt. Tanggamus
     </Text>
 
-  </View>
+    <Text style={styles.passDate}>
+      {new Date(
+        activeBooking.hikingDate
+      ).toLocaleDateString("id-ID", {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      })}
+    </Text>
 
-  <Text style={styles.viewTicket}>
-    View Ticket →
-  </Text>
+    <View style={styles.passStatusRow}>
+
+      <Animated.View
+        style={[
+          styles.activeDot,
+          {
+            opacity: pulseAnim,
+            transform: [
+              {
+                scale: pulseAnim,
+              },
+            ],
+          },
+        ]}
+      />
+
+      <Text style={styles.passStatus}>
+        {activeBooking.status}
+      </Text>
+
+    </View>
+
+    <Text style={styles.viewTicket}>
+      View Ticket →
+    </Text>
+
+  </>
+) : (
+  <>
+    <Text style={styles.passMountain}>
+      No Active Ticket
+    </Text>
+
+    <Text style={styles.passDate}>
+      No available hiking pass
+    </Text>
+  </>
+)}
 
 </TouchableOpacity>
 
@@ -470,37 +527,60 @@ const fetchWeather = async () => {
 
           </TouchableOpacity>
 
-          {/* ACTIVITY */}
+         <Text style={styles.sectionTitle}>
+  Recent Activity
+</Text>
 
-          <Text style={styles.sectionTitle}>
-            Recent Activity
-          </Text>
+{latestBooking ? (
 
-          <View style={styles.activityCard}>
+  <View style={styles.activityCard}>
 
-            <Text style={styles.activityTitle}>
-              Check-in Completed
-            </Text>
+    <Text style={styles.activityTitle}>
+      Booking Pendakian
+    </Text>
 
-            <Text style={styles.activityTime}>
-              Today • 08:42 AM
-            </Text>
+    <Text style={styles.activityTime}>
+      {new Date(
+        latestBooking.hikingDate
+      ).toLocaleDateString("id-ID")}
+    </Text>
 
-          </View>
+    <Text
+      style={{
+        marginTop: 6,
+        fontWeight: "700",
+        color:
+          latestBooking.status === "APPROVED"
+            ? "#22C55E"
+            : latestBooking.status === "PENDING"
+            ? "#EAB308"
+            : "#38BDF8",
+      }}
+    >
+      {latestBooking.status}
+    </Text>
 
-          <View style={styles.activityCard}>
+  </View>
 
-            <Text style={styles.activityTitle}>
-              Booking Approved
-            </Text>
+) : (
 
-            <Text style={styles.activityTime}>
-              Yesterday • 07:15 PM
-            </Text>
+  <View style={styles.activityCard}>
 
-          </View>
+    <Text style={styles.activityTitle}>
+      Belum ada aktivitas
+    </Text>
 
-        </ScrollView>
+    <Text style={styles.activityTime}>
+      Silakan buat booking terlebih dahulu
+    </Text>
+
+  </View>
+
+)}
+
+
+
+</ScrollView>
 
       </SafeAreaView>
 

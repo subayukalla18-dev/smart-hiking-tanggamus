@@ -85,6 +85,20 @@ Menggunakan JWT Authentication.
 <img src="https://github.com/user-attachments/assets/88aa90a4-ae65-465d-8f6c-a19e2f165b66" width="250"/>
 
 </td>
+
+<td align="center">
+
+## Ticket Screen
+<img src="https://github.com/user-attachments/assets/da652bfb-6e67-4ef5-897c-056af35e8978" width="250"/>
+
+</td>
+
+<td align="center">
+
+## Booking Screen
+<img  width="250" alt="WhatsApp Image 2026-06-08 at 17 25 24" src="https://github.com/user-attachments/assets/12326464-fc17-466d-b774-7dd5e39b5f7d" />
+
+</td>
 </tr>
 </table>
 

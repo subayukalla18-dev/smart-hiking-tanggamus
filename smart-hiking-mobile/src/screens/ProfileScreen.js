@@ -12,10 +12,31 @@ import {
 
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
+import AsyncStorage from
+"@react-native-async-storage/async-storage";
 
 export default function ProfileScreen() {
     const [showForm, setShowForm] =
     useState(false);
+
+    const handleLogout =
+  async () => {
+
+  try {
+
+    await AsyncStorage.removeItem(
+      "token"
+    );
+
+    router.replace("/");
+
+  } catch (error) {
+
+    console.log(error);
+
+  }
+
+};
 
   return (
 
@@ -218,7 +239,10 @@ export default function ProfileScreen() {
 
           {/* LOGOUT */}
 
-          <TouchableOpacity style={styles.logoutButton}>
+          <TouchableOpacity
+            style={styles.logoutButton}
+            onPress={handleLogout}
+          >
 
             <Text style={styles.logoutText}>
               Logout

@@ -133,153 +133,117 @@ export default function LoginScreen() {
         <SafeAreaView style={styles.safeArea}>
 
           {/* LOGO */}
-          <View style={styles.logoWrapper}>
+<View style={styles.content}>
 
   <Image
     source={require("../../assets/images/Tanggamuz.png")}
-    style={{
-      width: 150,
-      height: 150,
-       marginBottom: 12,
-
-       marginTop: -40,
-    }}
+    style={styles.logo}
   />
 
-</View>
-
-          {/* TITLE */}
-          <View style={styles.header}>
-
-            <Text style={styles.mainTitle}>
-              SMART HIKING
-            </Text>
-
-            <Text style={styles.subTitle}>
-              Track every journey safely
-            </Text>
-
-            <Text style={styles.tagline}>
-              Safety First Hiking System
-            </Text>
-
-          </View>
-
-          {/* CARD */}
-          <View style={styles.card}>
-
-            <Text style={styles.signText}>
-              Sign in to start trek
-            </Text>
-            <Text style={styles.smallDesc}>
-              Monitor your hiking journey safely
-            </Text>
-
-            {!showLoginForm ? (
-              <>
-                {/* GOOGLE BUTTON */}
-                <TouchableOpacity
-                  activeOpacity={0.85}
-                  style={styles.googleButton}
-                  onPress={handleGoogleLogin}
-                >
-                  <Ionicons
-                    name="logo-google"
-                    size={22}
-                    color="#EA4335"
-                  />
-
-                  <Text style={styles.googleText}>
-                    LOGIN WITH GOOGLE
-                  </Text>
-                </TouchableOpacity>
-
-                {/* EMAIL BUTTON */}
-                <TouchableOpacity
-                  activeOpacity={0.85}
-                  onPress={() => setShowLoginForm(true)}
-                >
-                  <LinearGradient
-                    colors={["#65E0A3", "#46C98C"]}
-                    start={{ x: 0, y: 0 }}
-                    end={{ x: 1, y: 0 }}
-                    style={styles.emailButton}
-                  >
-                    <Ionicons
-                      name="person-outline"
-                      size={22}
-                      color="white"
-                    />
-
-                    <Text style={styles.emailText}>
-                      LOGIN WITH EMAIL
-                    </Text>
-                  </LinearGradient>
-                </TouchableOpacity>
-              </>
-            ) : (
-              <>
-                {/* EMAIL INPUT */}
-                <TextInput
-                  placeholder="Email"
-                  placeholderTextColor="#A7B0AC"
-                  style={styles.input}
-                  value={email}
-                  onChangeText={setEmail}
-                />
-
-                {/* PASSWORD INPUT */}
-                <TextInput
-                  placeholder="Password"
-                  placeholderTextColor="#A7B0AC"
-                  secureTextEntry
-                  style={styles.input}
-                  value={password}
-                  onChangeText={setPassword}
-                />
-
-                {/* LOGIN BUTTON */}
-                <TouchableOpacity
-                  activeOpacity={0.85}
-                  onPress={handleEmailLogin}
-                >
-                  <LinearGradient
-                    colors={["#65E0A3", "#46C98C"]}
-                    start={{ x: 0, y: 0 }}
-                    end={{ x: 1, y: 0 }}
-                    style={styles.emailButton}
-                  >
-                    <Text style={styles.emailText}>
-                      {loading ? "Loading..." : "LOGIN"}
-                    </Text>
-                  </LinearGradient>
-                </TouchableOpacity>
-              </>
-            )}
-
-            {/* REGISTER */}
-            <View style={styles.registerWrapper}>
-
-  <Text style={styles.registerLabel}>
-    DON'T HAVE AN ACCOUNT?
+  <Text style={styles.mainTitle}>
+    SMART HIKING
   </Text>
 
-  <TouchableOpacity
-    activeOpacity={0.8}
-    onPress={() =>
-      router.push("/register")
-    }
-  >
+  <Text style={styles.description}>
+  Daftar Pendakian Gunung Tanggamus
+  </Text>
 
-    <Text style={styles.registerText}>
-      REGISTER NOW
+  {!showLoginForm ? (
+
+    <TouchableOpacity
+      activeOpacity={0.85}
+      onPress={() => setShowLoginForm(true)}
+    >
+
+      <LinearGradient
+        colors={["#65E0A3", "#46C98C"]}
+        style={styles.loginButton}
+      >
+
+        <Ionicons
+          name="mail-outline"
+          size={22}
+          color="#000"
+        />
+
+        <Text style={styles.loginButtonText}>
+          Masuk Dengan Email
+        </Text>
+
+      </LinearGradient>
+
+    </TouchableOpacity>
+
+  ) : (
+
+    <View style={styles.formCard}>
+
+      <TextInput
+        placeholder="Email"
+        placeholderTextColor="#9CA3AF"
+        style={styles.input}
+        value={email}
+        onChangeText={setEmail}
+      />
+
+      <TextInput
+        placeholder="Password"
+        placeholderTextColor="#9CA3AF"
+        secureTextEntry
+        style={styles.input}
+        value={password}
+        onChangeText={setPassword}
+      />
+
+      <TouchableOpacity
+        activeOpacity={0.85}
+        onPress={handleEmailLogin}
+      >
+
+        <LinearGradient
+          colors={["#65E0A3", "#46C98C"]}
+          style={styles.loginButton}
+        >
+
+          <Text style={styles.loginButtonText}>
+            {loading
+              ? "Loading..."
+              : "LOGIN"}
+          </Text>
+
+        </LinearGradient>
+
+      </TouchableOpacity>
+
+    </View>
+
+  )}
+
+  <View style={styles.registerWrapper}>
+
+    <Text style={styles.registerLabel}>
+      Belum punya akun?
     </Text>
 
-  </TouchableOpacity>
+    <TouchableOpacity
+      onPress={() =>
+        router.push("/register")
+      }
+    >
+
+      <Text style={styles.registerText}>
+        Daftar Sekarang
+      </Text>
+
+    </TouchableOpacity>
+
+  </View>
 
 </View>
 
-          </View>
+
+
+ 
         </SafeAreaView>
       </LinearGradient>
       </ScrollView>
@@ -291,15 +255,7 @@ export default function LoginScreen() {
 }
 
 const styles = StyleSheet.create({
-  mainTitle: {
 
-  color: "#FFFFFF",
-  fontSize: 46,
-  marginBottom: 10,
-  fontWeight: "900",
-  letterSpacing: -2,
-  fontStyle: "italic",
-},
 
 subTitle: {
 
@@ -320,11 +276,7 @@ tagline: {
   letterSpacing: 0,
 },
 
-  logo: {
-  width: 90,
-  height: 90,
-  resizeMode: "contain",
-},
+
 
   container: {
     flex: 1,
@@ -413,6 +365,86 @@ card: {
   marginBottom: 10,
 },
 
+content: {
+  flex: 1,
+  justifyContent: "center",
+  alignItems: "center",
+  paddingHorizontal: 30,
+
+  marginTop: -80,
+},
+
+logo: {
+  width: 170,
+  height: 170,
+  resizeMode: "contain",
+  marginBottom: 20,
+},
+
+mainTitle: {
+  color: "#FFFFFF",
+  fontSize: 42,
+  fontWeight: "900",
+  fontStyle: "italic",
+  marginBottom: 10,
+},
+
+description: {
+  color: "#C8D1CC",
+  fontSize: 16,
+  textAlign: "center",
+  lineHeight: 15,
+  marginBottom: 50,
+},
+
+loginButton: {
+  width: 285,
+  height: 55,
+  borderRadius: 22,
+  flexDirection: "row",
+  justifyContent: "center",
+  alignItems: "center",
+},
+
+loginButtonText: {
+  color: "#000",
+  fontSize: 18,
+  fontWeight: "700",
+  marginLeft: 10,
+},
+
+formContainer: {
+  width: "100%",
+  marginTop: 20,
+},
+
+  formCard: {
+    backgroundColor:
+      "rgba(255,255,255,0.05)",
+    borderRadius: 30,
+    padding: 24,
+    borderWidth: 1,
+    borderColor:
+      "rgba(255,255,255,0.08)",
+  },
+
+registerWrapper: {
+  alignItems: "center",
+  marginTop: 40,
+},
+
+registerLabel: {
+  color: "#9CA3AF",
+  fontSize: 15,
+},
+
+registerText: {
+  color: "#65E0A3",
+  fontSize: 15,
+  fontWeight: "700",
+  marginTop: 3,
+},
+
   googleButton: {
     backgroundColor: "white",
     borderRadius: 999,
@@ -453,36 +485,24 @@ card: {
   },
 
   input: {
-    backgroundColor: "rgba(255,255,255,0.08)",
+
+    backgroundColor:
+      "rgba(255,255,255,0.06)",
+
     borderRadius: 18,
-    paddingVertical: 15,
-    paddingHorizontal: 18,
-    color: "white",
+
+    paddingVertical: 18,
+
+    paddingHorizontal: 20,
+
+    color: "#FFFFFF",
+
     fontSize: 16,
+
     marginBottom: 18,
-
-    borderWidth: 1,
-    borderColor: "rgba(255,255,255,0.08)",
   },
 
-  registerWrapper: {
-    alignItems: "center",
-    marginTop: 24,
-  },
 
-  registerLabel: {
-    color: "#6B7F76",
-    fontSize: 14,
-    letterSpacing: 0,
-    fontWeight: "700",
-  },
-
-  registerText: {
-    color: "#59D7A1",
-    marginTop: 14,
-    fontSize: 18,
-    fontWeight: "800",
-  },
 
   smallDesc: {
 

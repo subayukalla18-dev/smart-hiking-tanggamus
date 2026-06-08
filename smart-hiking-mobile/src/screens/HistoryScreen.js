@@ -47,8 +47,11 @@ const [loading, setLoading] =
       );
 
     console.log(
-      "BOOKINGS:",
-      response.data
+      JSON.stringify(
+        response.data,
+        null,
+        2
+      )
     );
 
     setBookings(
