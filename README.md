@@ -67,6 +67,7 @@ Menggunakan JWT Authentication.
 
 ## CMS Dashboard
 <img width="1600" height="1000" alt="asset dashboard imam" src="https://github.com/user-attachments/assets/a95b1b27-375d-4bb9-8bfb-7283561ddaa9" />
+<img width="1600" height="1000" alt="dash admin" src="https://github.com/user-attachments/assets/7500b4bb-c8ed-4603-ac8a-e58aab2260b6" />
 
 
 ## Mobile App
@@ -117,7 +118,8 @@ npm run start:dev
 
 cd frontend-admin
 npm install
-npm run dev
+npm run dev<img width="1600" height="893" alt="dash admin" src="https://github.com/user-attachments/assets/914b3184-68bf-4d16-a85b-b2343ebed6b9" />
+
 
 cd smart-hiking-mobile
 npm install
