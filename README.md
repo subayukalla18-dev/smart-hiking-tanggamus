@@ -1,4 +1,4 @@
-<img width="1600" height="893" alt="dash admin" src="https://github.com/user-attachments/assets/7500b4bb-c8ed-4603-ac8a-e58aab2260b6" />
+
 # 🏔 Smart Hiking Tanggamus<img width="1600" height="893" alt="dash admin" src="https://github.com/user-attachments/assets/bfbc667f-3a7b-4ca3-b899-0e2986e18341" />
 
 
@@ -69,6 +69,7 @@ Menggunakan JWT Authentication.
 
 ## CMS Dashboard
 <img width="1600" height="1000" alt="asset dashboard imam" src="https://github.com/user-attachments/assets/a95b1b27-375d-4bb9-8bfb-7283561ddaa9" />
+<img width="1600" height="1000" alt="dash admin" src="https://github.com/user-attachments/assets/7500b4bb-c8ed-4603-ac8a-e58aab2260b6" />
 
 
 ## Mobile App
