@@ -28,7 +28,7 @@ export default function ProfileScreen() {
       "token"
     );
 
-    router.replace("/login");
+    router.replace("/");
 
   } catch (error) {
 
@@ -239,8 +239,10 @@ export default function ProfileScreen() {
 
           {/* LOGOUT */}
 
-          <TouchableOpacity style={styles.logoutButton}>
+          <TouchableOpacity
+            style={styles.logoutButton}
             onPress={handleLogout}
+          >
 
             <Text style={styles.logoutText}>
               Logout

@@ -39,6 +39,9 @@ export default function DashboardScreen() {
   const [activeBooking, setActiveBooking] =
   useState(null);
 
+  const [recentBookings, setRecentBookings] =
+  useState([]);  
+
   useEffect(() => {
 
   loadProfile();
@@ -128,9 +131,19 @@ const loadBookings = async () => {
 
     setActiveBooking(active || null);
 
+    setRecentBookings(
+      bookings
+        .slice()
+        .reverse()
+        .slice(0, 3)
+    );
+
   } catch (error) {
 
-    console.log(error);
+    console.log(
+      error.response?.data ||
+      error.message
+    );
 
   }
 
@@ -210,6 +223,11 @@ const fetchWeather = async () => {
   }
 
 };
+
+const latestBooking =
+  recentBookings.length > 0
+    ? recentBookings[0]
+    : null;
 
   return (
 
@@ -509,37 +527,60 @@ const fetchWeather = async () => {
 
           </TouchableOpacity>
 
-          {/* ACTIVITY */}
+         <Text style={styles.sectionTitle}>
+  Recent Activity
+</Text>
 
-          <Text style={styles.sectionTitle}>
-            Recent Activity
-          </Text>
+{latestBooking ? (
 
-          <View style={styles.activityCard}>
+  <View style={styles.activityCard}>
 
-            <Text style={styles.activityTitle}>
-              Check-in Completed
-            </Text>
+    <Text style={styles.activityTitle}>
+      Booking Pendakian
+    </Text>
 
-            <Text style={styles.activityTime}>
-              Today • 08:42 AM
-            </Text>
+    <Text style={styles.activityTime}>
+      {new Date(
+        latestBooking.hikingDate
+      ).toLocaleDateString("id-ID")}
+    </Text>
 
-          </View>
+    <Text
+      style={{
+        marginTop: 6,
+        fontWeight: "700",
+        color:
+          latestBooking.status === "APPROVED"
+            ? "#22C55E"
+            : latestBooking.status === "PENDING"
+            ? "#EAB308"
+            : "#38BDF8",
+      }}
+    >
+      {latestBooking.status}
+    </Text>
 
-          <View style={styles.activityCard}>
+  </View>
 
-            <Text style={styles.activityTitle}>
-              Booking Approved
-            </Text>
+) : (
 
-            <Text style={styles.activityTime}>
-              Yesterday • 07:15 PM
-            </Text>
+  <View style={styles.activityCard}>
 
-          </View>
+    <Text style={styles.activityTitle}>
+      Belum ada aktivitas
+    </Text>
 
-        </ScrollView>
+    <Text style={styles.activityTime}>
+      Silakan buat booking terlebih dahulu
+    </Text>
+
+  </View>
+
+)}
+
+
+
+</ScrollView>
 
       </SafeAreaView>
 
