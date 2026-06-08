@@ -89,7 +89,7 @@ Menggunakan JWT Authentication.
 <td align="center">
 
 ## Ticket Screen
-<img width="250"  alt="WhatsApp Image 2026-06-08 at 17 25 53" src="https://github.com/user-attachments/assets/da652bfb-6e67-4ef5-897c-056af35e8978" />
+<img src="https://github.com/user-attachments/assets/da652bfb-6e67-4ef5-897c-056af35e8978" width="250"/>
 
 </td>
 
