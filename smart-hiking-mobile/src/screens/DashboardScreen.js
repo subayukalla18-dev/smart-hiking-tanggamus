@@ -228,6 +228,18 @@ const latestBooking =
   recentBookings.length > 0
     ? recentBookings[0]
     : null;
+  
+  const currentStatus =
+  latestBooking?.status || "PENDING";
+
+  const isApproved =
+    currentStatus === "APPROVED";
+
+  const isOnHike =
+    currentStatus === "ON_HIKE";
+
+  const isFinished =
+    currentStatus === "FINISHED";
 
   return (
 
@@ -283,11 +295,17 @@ const latestBooking =
   </Text>
 
   <Text style={styles.heroStatus}>
-    ON HIKE
+  {currentStatus}
   </Text>
 
   <Text style={styles.heroDesc}>
-    You are currently hiking Mount Tanggamus
+    {currentStatus === "PENDING"
+      ? "Waiting admin approval"
+      : currentStatus === "APPROVED"
+      ? "Booking has been approved"
+      : currentStatus === "ON_HIKE"
+      ? "You are currently hiking Mount Tanggamus"
+      : "Hiking completed"}
   </Text>
 
   {/* TRACKER */}
@@ -312,7 +330,15 @@ const latestBooking =
 
     <View style={styles.stepItem}>
 
-      <View style={styles.activeStep} />
+      <View
+        style={
+          isApproved ||
+          isOnHike ||
+          isFinished
+            ? styles.activeStep
+            : styles.inactiveStep
+        }
+      />
 
       <Text style={styles.stepText}>
         APPROVED
@@ -328,25 +354,33 @@ const latestBooking =
 
 <View style={styles.stepItem}>
 
+{isOnHike ? (
+
   <Animated.View
-
     style={[
-
       styles.activeStep,
-
       {
         opacity: pulseAnim,
-
         transform: [
           {
             scale: pulseAnim,
           },
         ],
       },
-
     ]}
-
   />
+
+) : (
+
+  <View
+    style={
+      isFinished
+        ? styles.activeStep
+        : styles.inactiveStep
+    }
+  />
+
+)}
 
   <Text style={styles.stepText}>
     ON HIKE
@@ -368,7 +402,27 @@ const latestBooking =
 
     <View style={styles.stepItem}>
 
-      <View style={styles.inactiveStep} />
+      {isFinished ? (
+
+  <Animated.View
+    style={[
+      styles.activeStep,
+      {
+        opacity: pulseAnim,
+        transform: [
+          {
+            scale: pulseAnim,
+          },
+        ],
+      },
+    ]}
+  />
+
+) : (
+
+  <View style={styles.inactiveStep} />
+
+)}
 
       <Text style={styles.stepText}>
         FINISHED
@@ -659,15 +713,14 @@ viewTicket: {
 },
 
 trackerWrapper: {
-
   flexDirection: "row",
-  alignItems: "center",
-  justifyContent: "space-between",
+  alignItems: "flex-start",
   marginTop: 18,
 },
 
 stepItem: {
   alignItems: "center",
+  width: 55,
 },
 
 activeStep: {
@@ -690,13 +743,11 @@ inactiveStep: {
 },
 
 stepLine: {
-
-  flex: 1,
-  height: 4,
-  backgroundColor:
-    "rgba(255,255,255,0.35)",
-  marginHorizontal: -2,
-  borderRadius: 999,
+  flex: 5,
+  height: 3,
+  backgroundColor: "#FFFFFF",
+  marginHorizontal: 0,
+  marginTop: 8,
 },
 
 stepText: {
