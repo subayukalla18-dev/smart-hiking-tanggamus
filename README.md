@@ -1,67 +1,159 @@
-# 🏔 Smart Hiking Tanggamus
+Smart Hiking Tanggamus
 
-Smart Hiking Tanggamus adalah platform digital untuk registrasi pendakian Gunung Tanggamus secara online.
+Smart Hiking Tanggamus merupakan platform digital untuk pengelolaan pendakian Gunung Tanggamus yang menyediakan sistem registrasi pendaki, pemesanan tiket pendakian, upload bukti pembayaran, monitoring status pendakian, QR Code validation, serta dashboard administrasi berbasis web.
 
-## 👨‍💻 Team HANDICAP
+Team HANDICAP
+Nama	Role
+Subayu Kalla	Backend Developer
+Imam Ali Saputra	Frontend CMS Developer
+Muhammad Radityo	Mobile Developer
+Project Overview
 
-- Subayu Kalla → Backend Developer
-- Imam Ali Saputra → Frontend CMS Developer
-- Muhammad Radityo → Mobile Developer
+Smart Hiking Tanggamus dikembangkan untuk mempermudah proses administrasi pendakian secara digital mulai dari registrasi pengguna hingga validasi pendaki saat check-in dan check-out.
 
----
+Sistem terdiri dari tiga komponen utama:
 
-# 🚀 Features
+Backend REST API
+Frontend CMS Admin
+Mobile Application
+Features
+Backend API
+JWT Authentication
+Role Based Authorization (Admin & User)
+User Management
+Booking Management
+Upload Bukti Pembayaran
+QR Code Validation
+Dashboard Statistics
+Booking History
+Error Handling & Validation
+Swagger Documentation
+Cloudflare Tunnel Integration
+Admin CMS
+Admin Dashboard
+Data Pendaki
+User Management
+Booking Management
+Search & Pagination
+Verifikasi Pembayaran
+Approve / Reject Booking
+Tracking Pendaki
+QR Scanner
+Statistik Dashboard
+Mobile Application
+Register User
+Login User
+Profile User
+Booking Pendakian
+Upload Bukti Pembayaran
+Riwayat Booking
+Status Pendakian
+QR Ticket
+Tracking Pendakian
+System Architecture
 
-## Admin CMS
-- Dashboard Admin
-- Data Pendaki
-- Booking Management
-- Tracking Pendaki
-- QR Scanner
-- Approve / Reject Booking
+Mobile Application
+↓
+Frontend CMS
+↓
+Backend NestJS API
+↓
+Prisma ORM
+↓
+PostgreSQL Database
 
-## User Mobile
-- Register & Login
-- Booking Pendakian
-- Upload Bukti Pembayaran
-- Tracking Status
-- Profile User
+Technology Stack
+Backend
+NestJS
+Prisma ORM
+PostgreSQL
+JWT Authentication
+Swagger
+Cloudflare Tunnel
+Frontend CMS
+Next.js
+TypeScript
+TailwindCSS
+Axios
+Mobile App
+React Native
+Expo
+Axios
+API Documentation
 
----
+Swagger API Documentation:
 
-# 🛠 Tech Stack
+http://localhost:3001/api
 
-## Backend
-- NestJS
-- Prisma ORM
-- PostgreSQL
-- JWT Authentication
-- Swagger API
+Saat development online menggunakan Cloudflare Tunnel:
 
-## Frontend CMS
-- NextJS
-- TypeScript
-- TailwindCSS
-- Axios
+https://silent-surfing-idea-anyone.trycloudflare.com/api
 
-## Mobile App
-- React Native
+Authentication
 
----
+Sistem menggunakan JWT Authentication dengan Bearer Token.
 
-# 📦 API Documentation
+Fitur:
 
-Swagger API:
+Login User
+Login Admin
+Protected Route
+Role Authorization
+Profile Authentication
+Project Status
+Backend
 
-👉 https://manhunt-arrange-repair.ngrok-free.dev/api - klik visite
+Status: 90%
 
----
+Selesai:
 
-# 🔐 Authentication
+Authentication
+Authorization
+CRUD User
+CRUD Booking
+Upload Bukti Pembayaran
+QR Scan
+Dashboard Statistics
+Swagger Documentation
+Cloudflare Tunnel
 
-Menggunakan JWT Authentication.
+Pengembangan Berikutnya:
 
----
+Change Password
+Forgot Password
+Dashboard Analytics
+Frontend CMS
+
+Status: Dalam Pengembangan
+
+Selesai:
+
+Dashboard Statistics
+Data Pendaki
+Booking Management
+Integrasi API Backend
+
+Pengembangan Berikutnya:
+
+QR Scanner
+Tracking Pendaki
+Dashboard Analytics
+Mobile Application
+
+Status: Dalam Pengembangan
+
+Selesai:
+
+Login & Register
+Booking Pendakian
+Upload Bukti Pembayaran
+Riwayat Booking
+
+Pengembangan Berikutnya:
+
+Forgot Password
+Change Password
+Tracking Pendakian
 
 # 📸 Screenshots
 
