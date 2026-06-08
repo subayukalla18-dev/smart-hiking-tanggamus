@@ -1,4 +1,4 @@
-Smart Hiking Tanggamus
+## Smart Hiking Tanggamus
 
 Smart Hiking Tanggamus merupakan platform digital untuk pengelolaan pendakian Gunung Tanggamus yang menyediakan sistem registrasi pendaki, pemesanan tiket pendakian, upload bukti pembayaran, monitoring status pendakian, QR Code validation, serta dashboard administrasi berbasis web.
 
