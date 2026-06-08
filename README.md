@@ -1,6 +1,4 @@
-
-# 🏔 Smart Hiking Tanggamus<img width="1600" height="893" alt="dash admin" src="https://github.com/user-attachments/assets/bfbc667f-3a7b-4ca3-b899-0e2986e18341" />
-
+# 🏔 Smart Hiking Tanggamus
 
 Smart Hiking Tanggamus adalah platform digital untuk registrasi pendakian Gunung Tanggamus secara online.
 
