@@ -202,6 +202,14 @@ export default function BookingPage() {
                 <tr className="border-b border-gray-200 text-left">
 
                   <th className="pb-5 text-gray-500">
+                    Tanggal Pendakian
+                  </th>
+
+                   <th className="pb-5 text-gray-500">
+                    Total Person
+                  </th>
+
+                  <th className="pb-5 text-gray-500">
                     NIK
                   </th>
 
@@ -210,7 +218,7 @@ export default function BookingPage() {
                   </th>
 
                   <th className="pb-5 text-gray-500">
-                    Total Person
+                    Address
                   </th>
 
                   <th className="pb-5 text-gray-500">
@@ -228,13 +236,17 @@ export default function BookingPage() {
               <tbody>
 
                 {bookings.length > 0 ? (
-
                   bookings.map((booking) => (
-
                     <tr
                       key={booking.id}
                       className="border-b border-gray-100 hover:bg-gray-50 transition"
                     >
+                      {/* HIKING DATE */}
+                      <td className="text-gray-600">
+
+                        {booking.hikingDate}
+
+                      </td>
 
                       {/* NIK */}
                       <td className="py-6 font-semibold text-black">
@@ -254,6 +266,13 @@ export default function BookingPage() {
                       <td className="text-gray-600">
 
                         {booking.totalPerson}
+
+                      </td>
+
+                       {/* ADDRESS */}
+                      <td className="text-gray-600">
+
+                        {booking.address}
 
                       </td>
 
