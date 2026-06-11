@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const api = axios.create({
   baseURL:
-    "https://gas-focused-anonymous-differ.trycloudflare.com",
+    "https://information-prospects-blast-tail.trycloudflare.com",
 });
 
 // AUTO TOKEN

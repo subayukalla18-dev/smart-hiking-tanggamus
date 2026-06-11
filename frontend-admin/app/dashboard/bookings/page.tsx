@@ -15,18 +15,21 @@ import {
 
 type Booking = {
   id: number;
-
   nik: string;
-
   phone: string;
-
   status: string;
-
   hikingDate: string;
-
   totalPerson: number;
-
   address: string;
+};
+
+// FORMAT TANGGAL INDONESIA
+const formatDate = (date: string) => {
+  return new Date(date).toLocaleDateString("id-ID", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+  });
 };
 
 export default function BookingPage() {
@@ -204,17 +207,17 @@ export default function BookingPage() {
                   <th className="pb-5 text-gray-500">
                     Tanggal Pendakian
                   </th>
-
-                   <th className="pb-5 text-gray-500">
-                    Total Person
-                  </th>
-
+                   
                   <th className="pb-5 text-gray-500">
                     NIK
                   </th>
 
                   <th className="pb-5 text-gray-500">
                     Phone
+                  </th>
+
+                  <th className="pb-5 text-gray-500">
+                    Total Person
                   </th>
 
                   <th className="pb-5 text-gray-500">
@@ -232,113 +235,81 @@ export default function BookingPage() {
                 </tr>
 
               </thead>
+<tbody>
+  {bookings.length > 0 ? (
+    bookings.map((booking) => (
+      <tr
+        key={booking.id}
+        className="border-b border-gray-100 hover:bg-gray-50 transition"
+      >
+        {/* HIKING DATE */}
+        <td className="text-gray-600">
+          {formatDate(booking.hikingDate)}
+        </td>
 
-              <tbody>
+        {/* NIK */}
+        <td className="py-6 font-semibold text-black">
+          {booking.nik}
+        </td>
 
-                {bookings.length > 0 ? (
-                  bookings.map((booking) => (
-                    <tr
-                      key={booking.id}
-                      className="border-b border-gray-100 hover:bg-gray-50 transition"
-                    >
-                      {/* HIKING DATE */}
-                      <td className="text-gray-600">
+        {/* PHONE */}
+        <td className="text-gray-600">
+          {booking.phone}
+        </td>
 
-                        {booking.hikingDate}
+        {/* TOTAL PERSON */}
+        <td className="text-gray-600">
+          {booking.totalPerson}
+        </td>
 
-                      </td>
+        {/* ADDRESS */}
+        <td className="text-gray-600">
+          {booking.address}
+        </td>
 
-                      {/* NIK */}
-                      <td className="py-6 font-semibold text-black">
+        {/* STATUS */}
+        <td>
+          <span
+            className={`
+              px-4 py-2 rounded-full text-sm font-medium
+              ${
+                booking.status === "FINISHED"
+                  ? "bg-green-100 text-green-700"
+                  : booking.status === "PENDING"
+                  ? "bg-yellow-100 text-yellow-700"
+                  : "bg-red-100 text-red-700"
+              }
+            `}
+          >
+            {booking.status}
+          </span>
+        </td>
 
-                        {booking.nik}
+        {/* ACTION */}
+        <td className="space-x-2">
+          <button className="bg-green-500 text-white px-4 py-2 rounded-xl hover:bg-green-600 transition inline-flex items-center gap-2">
+            <CheckCircle size={18} />
+            Approve
+          </button>
 
-                      </td>
-
-                      {/* PHONE */}
-                      <td className="text-gray-600">
-
-                        {booking.phone}
-
-                      </td>
-
-                      {/* TOTAL PERSON */}
-                      <td className="text-gray-600">
-
-                        {booking.totalPerson}
-
-                      </td>
-
-                       {/* ADDRESS */}
-                      <td className="text-gray-600">
-
-                        {booking.address}
-
-                      </td>
-
-                      {/* STATUS */}
-                      <td>
-
-                        <span
-                          className={`
-                            px-4 py-2 rounded-full text-sm font-medium
-                            ${
-                              booking.status === "FINISHED"
-                                ? "bg-green-100 text-green-700"
-                                : booking.status === "PENDING"
-                                ? "bg-yellow-100 text-yellow-700"
-                                : "bg-red-100 text-red-700"
-                            }
-                          `}
-                        >
-
-                          {booking.status}
-
-                        </span>
-
-                      </td>
-
-                      {/* ACTION */}
-                      <td className="space-x-2">
-
-                        <button className="bg-green-500 text-white px-4 py-2 rounded-xl hover:bg-green-600 transition inline-flex items-center gap-2">
-
-                          <CheckCircle size={18} />
-
-                          Approve
-
-                        </button>
-
-                        <button className="bg-red-500 text-white px-4 py-2 rounded-xl hover:bg-red-600 transition inline-flex items-center gap-2">
-
-                          <XCircle size={18} />
-
-                          Reject
-
-                        </button>
-
-                      </td>
-
-                    </tr>
-
-                  ))
-
-                ) : (
-
-                  <tr>
-
-                    <td
-                      colSpan={5}
-                      className="text-center py-10 text-gray-500"
-                    >
-                      Data booking tidak ditemukan
-                    </td>
-
-                  </tr>
-
-                )}
-
-              </tbody>
+          <button className="bg-red-500 text-white px-4 py-2 rounded-xl hover:bg-red-600 transition inline-flex items-center gap-2">
+            <XCircle size={18} />
+            Reject
+          </button>
+        </td>
+      </tr>
+    ))
+  ) : (
+    <tr>
+      <td
+        colSpan={7}
+        className="text-center py-10 text-gray-500"
+      >
+        Data booking tidak ditemukan
+      </td>
+    </tr>
+  )}
+</tbody>
 
             </table>
 
