@@ -189,7 +189,7 @@ setTotalUsers(
               </h1>
 
               <p className="text-gray-500 mt-3 text-lg">
-                Smart Hiking Tanggamus Management System 🚀
+                Smart Hiking Tanggamus Management System 
               </p>
 
             </div>

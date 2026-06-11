@@ -160,7 +160,7 @@ export default function BookingPage() {
         </div>
 
         {/* TABLE */}
-        <div className="bg-white rounded-3xl shadow-lg p-8">
+        <div className="bg-white rounded-3xl shadow-lg p-8 border border-gray-100">
 
           {/* TOP TABLE */}
           <div className="flex items-center justify-between mb-8">
@@ -196,108 +196,104 @@ export default function BookingPage() {
           </div>
 
           {/* TABLE */}
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto rounded-2xl border border-gray-100">
 
-            <table className="w-full">
+            <table className="w-full table-fixed">
 
-              <thead>
+        <thead>
+    <tr className="border-b border-gray-200 text-left">
+    <th className="pb-5 w-[170px] text-gray-500">
+      Tanggal Pendakian
+    </th>
 
-                <tr className="border-b border-gray-200 text-left">
+    <th className="pb-5 w-[170px] text-gray-500 text-center">
+      NIK
+    </th>
 
-                  <th className="pb-5 text-gray-500">
-                    Tanggal Pendakian
-                  </th>
-                   
-                  <th className="pb-5 text-gray-500">
-                    NIK
-                  </th>
+    <th className="pb-5 w-[140px] text-gray-500 text-center">
+      No Handphone
+    </th>
 
-                  <th className="pb-5 text-gray-500">
-                    Phone
-                  </th>
+    <th className="pb-5 w-[120px] text-gray-500 text-center">
+      Total Pendaki
+    </th>
 
-                  <th className="pb-5 text-gray-500">
-                    Total Person
-                  </th>
+    <th className="pb-5 w-[160px] text-gray-500 text-center">
+      Alamat
+    </th>
 
-                  <th className="pb-5 text-gray-500">
-                    Address
-                  </th>
+    <th className="pb-5 w-[120px] text-gray-500 text-center">
+      Status
+    </th>
 
-                  <th className="pb-5 text-gray-500">
-                    Status
-                  </th>
-
-                  <th className="pb-5 text-gray-500">
-                    Action
-                  </th>
-
-                </tr>
-
-              </thead>
+    <th className="pb-5 w-[230px] text-gray-500 text-center">
+      Action
+    </th>
+  </tr>
+</thead>
 <tbody>
   {bookings.length > 0 ? (
     bookings.map((booking) => (
       <tr
-        key={booking.id}
-        className="border-b border-gray-100 hover:bg-gray-50 transition"
-      >
-        {/* HIKING DATE */}
-        <td className="text-gray-600">
-          {formatDate(booking.hikingDate)}
-        </td>
+  key={booking.id}
+  className="border-b border-gray-100 hover:bg-gray-50 transition"
+>
+  {/* TANGGAL */}
+  <td className="py-5 text-gray-600 whitespace-nowrap">
+    {formatDate(booking.hikingDate)}
+  </td>
 
-        {/* NIK */}
-        <td className="py-6 font-semibold text-black">
-          {booking.nik}
-        </td>
+  {/* NIK */}
+  <td className="py-5 text-center text-gray-600">
+    {booking.nik}
+  </td>
 
-        {/* PHONE */}
-        <td className="text-gray-600">
-          {booking.phone}
-        </td>
+  {/* PHONE */}
+  <td className="py-5 text-center text-gray-600">
+    {booking.phone}
+  </td>
 
-        {/* TOTAL PERSON */}
-        <td className="text-gray-600">
-          {booking.totalPerson}
-        </td>
+  {/* TOTAL PERSON */}
+  <td className="py-5 text-center text-gray-600">
+    {booking.totalPerson}
+  </td>
 
-        {/* ADDRESS */}
-        <td className="text-gray-600">
-          {booking.address}
-        </td>
+  {/* ADDRESS */}
+  <td className="py-5 text-center text-gray-600">
+    {booking.address}
+  </td>
 
-        {/* STATUS */}
-        <td>
-          <span
-            className={`
-              px-4 py-2 rounded-full text-sm font-medium
-              ${
-                booking.status === "FINISHED"
-                  ? "bg-green-100 text-green-700"
-                  : booking.status === "PENDING"
-                  ? "bg-yellow-100 text-yellow-700"
-                  : "bg-red-100 text-red-700"
-              }
-            `}
-          >
-            {booking.status}
-          </span>
-        </td>
+  {/* STATUS */}
+  <td className="py-5 text-center">
+    <span
+      className={`inline-flex px-4 py-2 rounded-full text-sm font-medium
+      ${
+        booking.status === "FINISHED"
+          ? "bg-green-100 text-green-700"
+          : booking.status === "PENDING"
+          ? "bg-yellow-100 text-yellow-700"
+          : "bg-red-100 text-red-700"
+      }`}
+    >
+      {booking.status}
+    </span>
+  </td>
 
-        {/* ACTION */}
-        <td className="space-x-2">
-          <button className="bg-green-500 text-white px-4 py-2 rounded-xl hover:bg-green-600 transition inline-flex items-center gap-2">
-            <CheckCircle size={18} />
-            Approve
-          </button>
+  {/* ACTION */}
+  <td className="py-5">
+    <div className="flex justify-center gap-2">
+      <button className="bg-green-500 text-white px-4 py-2 rounded-xl hover:bg-green-600 transition flex items-center gap-2">
+        <CheckCircle size={18} />
+        Approve
+      </button>
 
-          <button className="bg-red-500 text-white px-4 py-2 rounded-xl hover:bg-red-600 transition inline-flex items-center gap-2">
-            <XCircle size={18} />
-            Reject
-          </button>
-        </td>
-      </tr>
+      <button className="bg-red-500 text-white px-4 py-2 rounded-xl hover:bg-red-600 transition flex items-center gap-2">
+        <XCircle size={18} />
+        Reject
+      </button>
+    </div>
+  </td>
+</tr>
     ))
   ) : (
     <tr>
