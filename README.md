@@ -210,35 +210,7 @@ Status: Dalam Pengembangan
 
 ---
 
-# Screenshots
-
-## CMS Dashboard
-
-<img width="1600" height="1000" alt="Dashboard CMS" src="https://github.com/user-attachments/assets/a95b1b27-375d-4bb9-8bfb-7283561ddaa9" />
-
-<img width="1600" height="1000" alt="Dashboard Admin" src="https://github.com/user-attachments/assets/7500b4bb-c8ed-4603-ac8a-e58aab2260b6" />
-
----
-
-## Mobile Application
-
-### Register & Login
-
-<img src="https://github.com/user-attachments/assets/14972e0a-0fdd-462b-8ef7-5e09e8c25d3c" width="250"/>
-
-### User Profile
-
-<img src="https://github.com/user-attachments/assets/88aa90a4-ae65-465d-8f6c-a19e2f165b66" width="250"/>
-
-### Ticket
-
-<img src="https://github.com/user-attachments/assets/da652bfb-6e67-4ef5-897c-056af35e8978" width="250"/>
-
-### Booking
-
-<img width="250" src="https://github.com/user-attachments/assets/12326464-fc17-466d-b774-7dd5e39b5f7d"/>
-
----
+![Uploading Cuplikan layar 2026-06-12 021303.png…]()
 
 # Installation
 
