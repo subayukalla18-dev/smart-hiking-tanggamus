@@ -149,7 +149,7 @@ Fitur:
 
 ## Backend
 
-Status: 90%
+Status: 95%
 
 ### Selesai
 
