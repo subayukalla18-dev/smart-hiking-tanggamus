@@ -16,6 +16,7 @@ import {
 
 import { LinearGradient } from "expo-linear-gradient";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import DateTimePicker from "@react-native-community/datetimepicker";
 
 import { createBooking }
 from "../api/booking";
@@ -23,6 +24,12 @@ from "../api/booking";
 export default function BookingScreen() {
   const [hikingDate, setHikingDate] =
   useState("");
+
+const [date, setDate] =
+  useState(new Date());
+
+const [showPicker, setShowPicker] =
+  useState(false);
 
 const [totalPerson, setTotalPerson] =
   useState("");
@@ -99,6 +106,24 @@ const [loading, setLoading] =
 
 };
 
+
+  const onChangeDate = (event, selectedDate) => {
+  setShowPicker(false);
+
+  if (selectedDate) {
+    setDate(selectedDate);
+
+    const formatted =
+      selectedDate.getFullYear() +
+      "-" +
+      String(selectedDate.getMonth() + 1).padStart(2, "0") +
+      "-" +
+      String(selectedDate.getDate()).padStart(2, "0");
+
+    setHikingDate(formatted);
+  }
+};
+
   return (
 
     <LinearGradient
@@ -147,20 +172,26 @@ const [loading, setLoading] =
               Hiking Date
             </Text>
 
-            <TextInput
-              placeholder="2026-05-10"
-              placeholderTextColor="#6B7280"
-              style={styles.input}
-              value={hikingDate}
-              onChangeText={setHikingDate}
-            />
+            <TouchableOpacity
+  style={styles.input}
+  onPress={() => setShowPicker(true)}
+>
+  <Text
+    style={{
+      color: hikingDate ? "#FFFFFF" : "#9CA3AF",
+      fontSize: 16,
+    }}
+  >
+    {hikingDate || "Pilih tanggal hiking"}
+  </Text>
+</TouchableOpacity>
 
             <Text style={styles.label}>
               Total Person
             </Text>
 
             <TextInput
-              placeholder="3"
+              placeholder=""
               placeholderTextColor="#6B7280"
               style={styles.input}
               keyboardType="numeric"
@@ -173,7 +204,7 @@ const [loading, setLoading] =
             </Text>
 
             <TextInput
-              placeholder="1234567890123456"
+              placeholder=""
               placeholderTextColor="#6B7280"
               style={styles.input}
               keyboardType="numeric"
@@ -186,7 +217,7 @@ const [loading, setLoading] =
             </Text>
 
             <TextInput
-              placeholder="08123456789"
+              placeholder=""
               placeholderTextColor="#6B7280"
               style={styles.input}
               keyboardType="phone-pad"
@@ -199,7 +230,7 @@ const [loading, setLoading] =
             </Text>
 
             <TextInput
-              placeholder="Bandar Lampung"
+              placeholder=""
               placeholderTextColor="#6B7280"
               style={styles.input}
               value={address}
@@ -211,7 +242,7 @@ const [loading, setLoading] =
             </Text>
 
             <TextInput
-              placeholder="08111111111"
+              placeholder=""
               placeholderTextColor="#6B7280"
               style={styles.input}
               keyboardType="phone-pad"
@@ -231,6 +262,16 @@ const [loading, setLoading] =
               </Text>
 
             </TouchableOpacity>
+
+            {showPicker && (
+            <DateTimePicker
+              value={date}
+              mode="date"
+              display="default"
+              minimumDate={new Date()}
+              onChange={onChangeDate}
+            />
+          )}
 
           </View>
 

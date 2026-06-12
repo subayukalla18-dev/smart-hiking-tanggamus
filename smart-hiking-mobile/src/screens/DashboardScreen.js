@@ -97,13 +97,7 @@ const loadProfile = async () => {
     console.log("PROFILE:", response.data);
 
     setUserName(
-      response.data.data?.name ||
-      response.data.name ||
-      "User"
-    );
-
-    setUserName(
-      response.data.data.name
+      response.data.data?.name || "User"
     );
 
   } catch (error) {

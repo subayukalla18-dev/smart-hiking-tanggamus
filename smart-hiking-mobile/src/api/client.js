@@ -2,7 +2,7 @@ import axios from "axios";
 
 const client = axios.create({
   baseURL:
-    "https://promotes-reporting-eng-generous.trycloudflare.com",
+    "https://pvc-mazda-similarly-shannon.trycloudflare.com",
 
   headers: {
     "Content-Type": "application/json",
