@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const api = axios.create({
   baseURL:
-    "https://information-prospects-blast-tail.trycloudflare.com",
+    "https://intake-requirements-toxic-relying.trycloudflare.com",
 });
 
 // AUTO TOKEN

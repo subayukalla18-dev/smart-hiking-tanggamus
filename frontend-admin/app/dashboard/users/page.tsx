@@ -49,6 +49,12 @@ export default function UsersPage() {
   const [totalUsers, setTotalUsers] =
     useState(0);
 
+  const [selectedUser, setSelectedUser] =
+  useState<any>(null);
+
+  const [showDetail, setShowDetail] =
+  useState(false);
+
   // FETCH USERS
   useEffect(() => {
 
@@ -67,7 +73,7 @@ export default function UsersPage() {
     return () =>
       clearInterval(interval);
 
-  }, [page, search]);
+  }, [page,search]);
 
   const fetchUsers = async (
     isRefresh = false
@@ -146,7 +152,42 @@ const total =
 
     }
   };
+         const handleDetail = async (
+  id: number
+) => {
 
+  try {
+
+    const token =
+      localStorage.getItem("token");
+
+    const response =
+      await api.get(
+        `/users/${id}`,
+        {
+          headers: {
+            Authorization:
+              `Bearer ${token}`,
+          },
+        }
+      );
+
+    setSelectedUser(
+      response.data.data
+    );
+
+    setShowDetail(true);
+
+  } catch (error: any) {
+
+    console.log(
+      "DETAIL ERROR =",
+      error?.response?.data || error
+    );
+
+  }
+
+};
   // DELETE USER
   const handleDelete = async (
     id: number
@@ -213,7 +254,62 @@ const total =
 
       {/* SIDEBAR */}
       <Sidebar />
+        {showDetail && selectedUser && (
+  <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+    <div className="bg-white p-8 rounded-3xl w-[500px] shadow-2xl">
 
+      <h2 className="text-2xl font-bold text-black mb-6">
+        Detail Pendaki
+      </h2>
+
+      <div className="space-y-4">
+
+        <div>
+          <p className="text-sm text-gray-500">
+            Nama
+          </p>
+          <p className="text-lg font-semibold text-black">
+            {selectedUser.name}
+          </p>
+        </div>
+
+        <div>
+          <p className="text-sm text-gray-500">
+            Email
+          </p>
+          <p className="text-lg font-semibold text-black">
+            {selectedUser.email}
+          </p>
+        </div>
+
+        <div>
+          <p className="text-sm text-gray-500">
+            Role
+          </p>
+
+          <span
+            className={`px-3 py-1 rounded-full text-sm font-medium ${
+              selectedUser.role === "ADMIN"
+                ? "bg-green-100 text-green-700"
+                : "bg-blue-100 text-blue-700"
+            }`}
+          >
+            {selectedUser.role}
+          </span>
+        </div>
+
+      </div>
+
+      <button
+        onClick={() => setShowDetail(false)}
+        className="mt-8 w-full bg-black text-white py-3 rounded-xl hover:bg-gray-800 transition"
+      >
+        Tutup
+      </button>
+
+    </div>
+  </div>
+)}
       {/* MAIN */}
       <main className="flex-1 p-8">
 
@@ -387,9 +483,14 @@ const total =
                       {/* ACTION */}
                       <td className="space-x-2">
 
-                        <button className="bg-blue-500 text-white px-4 py-2 rounded-xl hover:bg-blue-600 transition">
-                          Detail
-                        </button>
+                        <button
+                      onClick={() =>
+                      handleDetail(user.id)
+                    }
+                     className="bg-blue-500 text-white px-4 py-2 rounded-xl hover:bg-blue-600 transition"
+                  >
+                    Detail
+                    </button>
 
                         <button
                           onClick={() =>

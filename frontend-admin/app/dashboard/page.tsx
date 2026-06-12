@@ -45,6 +45,7 @@ export default function DashboardPage() {
 
   useEffect(() => {
 
+    // eslint-disable-next-line react-hooks/immutability
     fetchDashboard();
 
     // AUTO REFRESH
