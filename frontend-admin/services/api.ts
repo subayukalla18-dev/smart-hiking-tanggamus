@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const api = axios.create({
   baseURL:
-    "https://constantly-offerings-transparent-click.trycloudflare.com",
+    "https://promotes-reporting-eng-generous.trycloudflare.com",
 });
 
 // AUTO TOKEN
