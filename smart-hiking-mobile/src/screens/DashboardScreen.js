@@ -834,8 +834,7 @@ weatherHighLow: {
   },
 
   topBar: {
-    marginTop: 9,
-
+    marginTop: 30,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
