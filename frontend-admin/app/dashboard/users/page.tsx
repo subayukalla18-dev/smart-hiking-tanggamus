@@ -58,7 +58,7 @@ export default function UsersPage() {
   // FETCH USERS
   useEffect(() => {
 
-    fetchUsers();
+    fetchUsers(true);
 
   }, [page, search]);
 
@@ -385,28 +385,30 @@ const total =
             </div>
 
             {/* SEARCH */}
-            <div className="flex items-center bg-gray-100 px-4 py-3 rounded-2xl w-[300px]">
+           <div className="flex items-center bg-gray-100 px-4 py-3 rounded-2xl w-[300px]">
+        <Search
+    size={20}
+    className="text-gray-600"
+  />
 
-              <Search
-                size={20}
-                className="text-gray-500"
-              />
-
-              <input
-                type="text"
-                placeholder="Cari pendaki..."
-                value={search}
-                onChange={(e) => {
-                  setSearch(
-                    e.target.value
-                  );
-
-                  setPage(1);
-                }}
-                className="bg-transparent outline-none ml-3 w-full"
-              />
-
-            </div>
+  <input
+    type="text"
+    placeholder="Cari pendaki"
+    value={search}
+    onChange={(e) => {
+      setSearch(e.target.value);
+      setPage(1);
+    }}
+    className="
+      bg-transparent
+      outline-none
+      ml-3
+      w-full
+      text-black
+      placeholder:text-gray-500
+    "
+  />
+</div>
 
           </div>
 
