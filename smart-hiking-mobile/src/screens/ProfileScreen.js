@@ -413,7 +413,7 @@ editButtonText: {
   },
 
   backButton: {
-  marginTop: 20,
+  marginTop: 45,
   marginBottom: 20,
 },
 

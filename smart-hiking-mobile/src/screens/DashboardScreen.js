@@ -250,9 +250,14 @@ const latestBooking =
 
       <SafeAreaView style={{ flex: 1 }}>
 
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-        >
+  <ScrollView
+    style={{ flex: 1 }}
+    contentContainerStyle={{
+      paddingBottom: 120,
+      flexGrow: 1,
+    }}
+    showsVerticalScrollIndicator={false}
+  >
 
           {/* TOP */}
 
@@ -959,7 +964,7 @@ weatherHighLow: {
     fontSize: 20,
     fontWeight: "600",
 
-    marginTop: 34,
+    marginTop: 20,
     marginBottom: 18,
   },
 

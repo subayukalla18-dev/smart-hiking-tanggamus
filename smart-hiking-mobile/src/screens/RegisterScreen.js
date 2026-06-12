@@ -221,7 +221,7 @@ export default function RegisterScreen() {
 const styles = StyleSheet.create({
 topBackButton: {
   paddingHorizontal: 24,
-  paddingTop: 16,
+  paddingTop: 45,
 },
 
 topBackText: {

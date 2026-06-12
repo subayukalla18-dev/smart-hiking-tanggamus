@@ -222,7 +222,7 @@ useEffect(() => {
 
 const styles = StyleSheet.create({
 backButton: {
-  marginTop: 20,
+  marginTop: 45,
   marginLeft: 24,
 },
 
