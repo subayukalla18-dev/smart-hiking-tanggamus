@@ -210,13 +210,18 @@ Status: Dalam Pengembangan
 
 ---
 
-# Screenshots
+# Screenshots Tampilan 
+## Admin CMS
 
-## CMS Dashboard
+### Halaman Login
+<img width="1920" height="1200" alt="Screenshot 2026-06-13 031014" src="https://github.com/user-attachments/assets/fc70b06b-4303-4d2a-969c-181c77031fc2" />
 
-<img width="1600" height="1000" alt="Dashboard CMS" src="https://github.com/user-attachments/assets/a95b1b27-375d-4bb9-8bfb-7283561ddaa9" />
+### CMS Dashboard
+<img width="1920" height="1200" alt="Screenshot 2026-06-13 030547" src="https://github.com/user-attachments/assets/e97eb49b-d1e8-4142-bfc3-59cf41f737ed" />
 
-<img width="1600" height="1000" alt="Dashboard Admin" src="https://github.com/user-attachments/assets/7500b4bb-c8ed-4603-ac8a-e58aab2260b6" />
+### User 
+<img width="1920" height="1200" alt="Screenshot 2026-06-13 030859" src="https://github.com/user-attachments/assets/6986f61f-33df-4e55-979c-316111423bd5" />
+
 
 ---
 
