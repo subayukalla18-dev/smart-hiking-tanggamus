@@ -149,7 +149,7 @@ Fitur:
 
 ## Backend
 
-Status: 90%
+Status: 95%
 
 ### Selesai
 
@@ -237,6 +237,14 @@ Status: Dalam Pengembangan
 ### Booking
 
 <img width="250" src="https://github.com/user-attachments/assets/12326464-fc17-466d-b774-7dd5e39b5f7d"/>
+
+---
+
+## Backend API Documentation
+
+### Swagger API Documentation
+
+<img width="722" height="827" alt="Swagger API Documentation" src="https://github.com/user-attachments/assets/315337ef-2a3b-4ff6-bca9-c01f46d31e76" />
 
 ---
 
@@ -341,3 +349,5 @@ smart-hiking-tanggamus
 # License
 
 Project Smart Hiking Tanggamus dikembangkan untuk kebutuhan akademik, penelitian, dan pembelajaran pengembangan aplikasi berbasis web dan mobile.
+<img width="722" height="827" alt="Cuplikan layar 2026-06-12 021303" src="https://github.com/user-attachments/assets/315337ef-2a3b-4ff6-bca9-c01f46d31e76" />
+

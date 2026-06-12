@@ -3,7 +3,7 @@ import axios from "axios";
 const client = axios.create({
 
   baseURL:
-    "https://bizrate-dictionary-receiving-magic.trycloudflare.com",
+    "https://formats-walter-edwards-classical.trycloudflare.com",
 
   headers: {
     "Content-Type": "application/json",
