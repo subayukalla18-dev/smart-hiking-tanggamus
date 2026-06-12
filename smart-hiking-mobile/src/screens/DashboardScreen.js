@@ -94,10 +94,13 @@ const loadProfile = async () => {
 
     console.log(response.data);
 
-    /*
-      backend:
-      response.data.data.name
-    */
+    console.log("PROFILE:", response.data);
+
+    setUserName(
+      response.data.data?.name ||
+      response.data.name ||
+      "User"
+    );
 
     setUserName(
       response.data.data.name
@@ -250,9 +253,14 @@ const latestBooking =
 
       <SafeAreaView style={{ flex: 1 }}>
 
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-        >
+  <ScrollView
+    style={{ flex: 1 }}
+    contentContainerStyle={{
+      paddingBottom: 120,
+      flexGrow: 1,
+    }}
+    showsVerticalScrollIndicator={false}
+  >
 
           {/* TOP */}
 
@@ -319,7 +327,7 @@ const latestBooking =
       <View style={styles.activeStep} />
 
       <Text style={styles.stepText}>
-        CHECK-IN
+        PENDING
       </Text>
 
     </View>
@@ -834,8 +842,7 @@ weatherHighLow: {
   },
 
   topBar: {
-    marginTop: 9,
-
+    marginTop: 60,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
@@ -848,7 +855,7 @@ weatherHighLow: {
 
   name: {
     color: "#FFFFFF",
-    fontSize: 34,
+    fontSize: 25,
     fontWeight: "700",
     marginTop: 6,
   },
@@ -896,11 +903,9 @@ weatherHighLow: {
 
   heroDesc: {
     color: "#064E3B",
-
-    marginTop: 6,
-
+    marginTop: 0,
     fontSize: 15,
-    lineHeight: 24,
+    lineHeight: 15,
   },
 
   infoWrapper: {
@@ -960,7 +965,7 @@ weatherHighLow: {
     fontSize: 20,
     fontWeight: "600",
 
-    marginTop: 34,
+    marginTop: 20,
     marginBottom: 18,
   },
 

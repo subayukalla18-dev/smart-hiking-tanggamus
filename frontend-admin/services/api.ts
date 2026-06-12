@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const api = axios.create({
   baseURL:
-    "https://intake-requirements-toxic-relying.trycloudflare.com",
+    "https://act-possess-convinced-sand.trycloudflare.com",
 });
 
 // AUTO TOKEN

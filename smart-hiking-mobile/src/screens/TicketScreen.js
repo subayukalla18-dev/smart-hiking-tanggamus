@@ -133,7 +133,7 @@ export default function TicketScreen() {
 
 const styles = StyleSheet.create({
   backButton: {
-  marginTop: 10,
+  marginTop: 45,
   marginBottom: 10,
 },
 

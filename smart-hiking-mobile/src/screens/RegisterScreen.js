@@ -55,15 +55,24 @@ export default function RegisterScreen() {
 
       router.back();
 
-    } catch (error) {
+} catch (error) {
 
-      console.log(
-        error.response?.data || error.message
-      );
+  console.log("ERROR RESPONSE:");
+  console.log(error.response?.data);
 
-      alert("Register gagal");
+  console.log("ERROR STATUS:");
+  console.log(error.response?.status);
 
-    } finally {
+  console.log("ERROR MESSAGE:");
+  console.log(error.message);
+
+  alert(
+    JSON.stringify(
+      error.response?.data || error.message
+    )
+  );
+
+} finally {
 
       setLoading(false);
 
@@ -212,7 +221,7 @@ export default function RegisterScreen() {
 const styles = StyleSheet.create({
 topBackButton: {
   paddingHorizontal: 24,
-  paddingTop: 16,
+  paddingTop: 45,
 },
 
 topBackText: {
