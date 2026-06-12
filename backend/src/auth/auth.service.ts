@@ -19,7 +19,7 @@ export class AuthService {
   constructor(
     private prisma: PrismaService,
     private jwtService: JwtService,
-  ) { }
+  ) {}
 
   async login(email: string, password: string) {
     const user = await this.prisma.user.findUnique({
