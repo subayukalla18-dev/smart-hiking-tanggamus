@@ -419,19 +419,19 @@ const total =
 
                 <tr className="border-b border-gray-200 text-left">
 
-                  <th className="pb-5 text-gray-500">
+                  <th className="pb-5 text-center text-gray-500">
                     Nama
                   </th>
 
-                  <th className="pb-5 text-gray-500">
+                  <th className="pb-5 text-center text-gray-500">
                     Email
                   </th>
 
-                  <th className="pb-5 text-gray-500">
+                  <th className="pb-5 text-center text-gray-500">
                     Role
                   </th>
 
-                  <th className="pb-5 text-gray-500">
+                  <th className="pb-5 text-center text-gray-500">
                     Action
                   </th>
 
@@ -447,16 +447,16 @@ const total =
 
                     <tr
                       key={user.id}
-                      className="border-b border-gray-100 hover:bg-gray-50 transition"
+                      className="border-b border-gray-100 hover:bg-gray-50 transition text-center"
                     >
 
                       {/* NAME */}
-                      <td className="py-6 font-semibold text-black">
+                      <td className="py-6 font-semibold text-black text-center">
                         {user.name}
                       </td>
 
                       {/* EMAIL */}
-                      <td className="text-gray-600">
+                      <td className="text-gray-600 text-center">
                         {user.email}
                       </td>
 
