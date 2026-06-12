@@ -53,6 +53,14 @@ export default function UsersPage() {
 
   const [password, setPassword] = useState("");
 
+  const [showEditModal, setShowEditModal] = useState(false);
+
+  const [editId, setEditId] = useState<number | null>(null);
+
+  const [editName, setEditName] = useState("");
+
+  const [editEmail, setEditEmail] = useState("");
+
   // FETCH USERS
   useEffect(() => {
     fetchUsers(true);
@@ -138,6 +146,17 @@ export default function UsersPage() {
       console.log("DETAIL ERROR =", error?.response?.data || error);
     }
   };
+
+  const handleEdit = (user: User) => {
+    setEditId(user.id);
+
+    setEditName(user.name);
+
+    setEditEmail(user.email);
+
+    setShowEditModal(true);
+  };
+
   // DELETE USER
   const handleDelete = async (id: number) => {
     const confirmDelete = confirm("Yakin ingin menghapus user ini?");
@@ -190,6 +209,33 @@ export default function UsersPage() {
     } catch (error: any) {
       console.log("ADD USER ERROR =", error?.response?.data || error);
       alert("Gagal menambahkan pendaki");
+    }
+  };
+
+  const handleUpdateUser = async () => {
+    try {
+      const token = localStorage.getItem("token");
+
+      await api.patch(
+        `/users/${editId}`,
+        {
+          name: editName,
+          email: editEmail,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      alert("User berhasil diupdate");
+
+      setShowEditModal(false);
+
+      fetchUsers();
+    } catch (error: any) {
+      console.log("UPDATE ERROR =", error?.response?.data || error);
     }
   };
 
@@ -260,6 +306,45 @@ export default function UsersPage() {
                 className="flex-1 bg-black text-white py-3 rounded-xl"
               >
                 Simpan
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {showEditModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white p-8 rounded-3xl w-[500px] text-black">
+            <h2 className="text-2xl font-bold mb-6">Edit Pendaki</h2>
+
+            <div className="space-y-4">
+              <input
+                type="text"
+                value={editName}
+                onChange={(e) => setEditName(e.target.value)}
+                className="w-full border p-3 rounded-xl"
+              />
+
+              <input
+                type="email"
+                value={editEmail}
+                onChange={(e) => setEditEmail(e.target.value)}
+                className="w-full border p-3 rounded-xl"
+              />
+            </div>
+
+            <div className="flex gap-3 mt-6">
+              <button
+                onClick={() => setShowEditModal(false)}
+                className="flex-1 bg-gray-200 py-3 rounded-xl"
+              >
+                Batal
+              </button>
+
+              <button
+                onClick={handleUpdateUser}
+                className="flex-1 bg-black text-white py-3 rounded-xl"
+              >
+                Update
               </button>
             </div>
           </div>
@@ -459,6 +544,13 @@ export default function UsersPage() {
                         >
                           Detail
                         </button>
+                        
+                        <button
+                          onClick={() => handleEdit(user)}
+                          className="bg-yellow-500 text-white px-4 py-2 rounded-xl hover:bg-yellow-600 transition"
+                        >
+                          Edit
+                        </button>
 
                         <button
                           onClick={() => handleDelete(user.id)}
@@ -466,6 +558,8 @@ export default function UsersPage() {
                         >
                           Hapus
                         </button>
+
+                        
                       </td>
                     </tr>
                   ))
