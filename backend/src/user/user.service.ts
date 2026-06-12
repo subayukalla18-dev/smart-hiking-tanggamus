@@ -52,6 +52,7 @@ export class UserService {
         name: true,
         email: true,
         role: true,
+        createdAt: true,
       },
     });
 
@@ -86,6 +87,7 @@ export class UserService {
       name: user.name,
       email: user.email,
       role: user.role,
+      createdAt: user.createdAt,
     };
   }
 
@@ -99,6 +101,7 @@ export class UserService {
         name: true,
         email: true,
         role: true,
+        createdAt: true,
       },
     });
 
@@ -140,6 +143,7 @@ export class UserService {
       name: updatedUser.name,
       email: updatedUser.email,
       role: updatedUser.role,
+      createdAt: updatedUser.createdAt,
     };
   }
 

@@ -213,9 +213,8 @@ Status: Dalam Pengembangan
 # Screenshots
 
 ## CMS Dashboard
-
-<img width="1600" height="1000" alt="Dashboard CMS" src="https://github.com/user-attachments/assets/a95b1b27-375d-4bb9-8bfb-7283561ddaa9" />
-
+<img width="1920" height="1200" alt="Screenshot 2026-06-13 030547" src="https://github.com/user-attachments/assets/e97eb49b-d1e8-4142-bfc3-59cf41f737ed" />
+## User 
 <img width="1600" height="1000" alt="Dashboard Admin" src="https://github.com/user-attachments/assets/7500b4bb-c8ed-4603-ac8a-e58aab2260b6" />
 
 ---

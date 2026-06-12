@@ -26,7 +26,7 @@ import { ForgotPasswordDto } from './dto/forgot-password.dto';
 @ApiBearerAuth('access-token')
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService) { }
 
   @Post('login')
   login(@Body() body: LoginDto) {
@@ -41,7 +41,7 @@ export class AuthController {
   @Get('me')
   @UseGuards(JwtAuthGuard)
   getProfile(@Req() req: ExpressRequest) {
-    return (req as any).user;
+    return this.authService.getProfile((req as any).user.sub);
   }
 
   @Patch('me')
