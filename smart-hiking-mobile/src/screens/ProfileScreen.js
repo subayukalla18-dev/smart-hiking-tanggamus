@@ -12,8 +12,11 @@ import {
 
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
-import AsyncStorage from
-"@react-native-async-storage/async-storage";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useEffect } from "react";
+import { getMyBookings } from "../api/booking";
+
+
 
 export default function ProfileScreen() {
     const [showForm, setShowForm] =
@@ -37,6 +40,10 @@ export default function ProfileScreen() {
   }
 
 };
+
+  const [totalHiking, setTotalHiking] = useState(0);
+  const [totalFinished, setTotalFinished] = useState(0);
+  const [totalActive, setTotalActive] = useState(0);
 
   return (
 
@@ -243,6 +250,8 @@ export default function ProfileScreen() {
             style={styles.logoutButton}
             onPress={handleLogout}
           >
+
+            
 
             <Text style={styles.logoutText}>
               Logout
