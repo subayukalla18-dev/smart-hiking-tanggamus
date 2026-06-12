@@ -45,6 +45,14 @@ export default function UsersPage() {
 
   const [showDetail, setShowDetail] = useState(false);
 
+  const [showAddModal, setShowAddModal] = useState(false);
+
+  const [name, setName] = useState("");
+
+  const [email, setEmail] = useState("");
+
+  const [password, setPassword] = useState("");
+
   // FETCH USERS
   useEffect(() => {
     fetchUsers(true);
@@ -152,6 +160,39 @@ export default function UsersPage() {
     }
   };
 
+  const handleAddUser = async () => {
+    try {
+      const token = localStorage.getItem("token");
+
+      await api.post(
+        "/users",
+        {
+          name,
+          email,
+          password,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      alert("Pendaki berhasil ditambahkan");
+
+      setShowAddModal(false);
+
+      setName("");
+      setEmail("");
+      setPassword("");
+
+      fetchUsers();
+    } catch (error: any) {
+      console.log("ADD USER ERROR =", error?.response?.data || error);
+      alert("Gagal menambahkan pendaki");
+    }
+  };
+
   // LOADING
   if (loading) {
     return (
@@ -168,6 +209,62 @@ export default function UsersPage() {
     <div className="flex min-h-screen bg-gradient-to-br from-gray-100 to-gray-200">
       {/* SIDEBAR */}
       <Sidebar />
+      {showAddModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white p-8 rounded-3xl w-[500px] text-black">
+            <h2 className="text-2xl font-bold mb-6">Tambah Pendaki</h2>
+
+            <div className="space-y-4 text-black">
+              <input
+                type="text"
+                placeholder="Nama"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="w-full border p-3 rounded-xl"
+              />
+
+              <input
+                type="email"
+                placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full border p-3 rounded-xl"
+              />
+
+              <input
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full
+                border
+                border-gray-300
+                rounded-xl
+                p-3
+                text-black
+                placeholder:text-gray-400
+                "
+              />
+            </div>
+
+            <div className="flex gap-3 mt-6">
+              <button
+                onClick={() => setShowAddModal(false)}
+                className="flex-1 bg-gray-200 py-3 rounded-xl"
+              >
+                Batal
+              </button>
+
+              <button
+                onClick={handleAddUser}
+                className="flex-1 bg-black text-white py-3 rounded-xl"
+              >
+                Simpan
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       {showDetail && selectedUser && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-white p-8 rounded-3xl w-[500px] shadow-2xl">
@@ -238,7 +335,13 @@ export default function UsersPage() {
                 {refreshing ? "Refreshing..." : "Realtime Active"}
               </div>
 
-              <button className="flex items-center gap-2 bg-black text-white px-5 py-3 rounded-2xl hover:bg-gray-800 transition">
+              <button
+                onClick={() => {
+                  console.log("TOMBOL TAMBAH DIKLIK");
+                  setShowAddModal(true);
+                }}
+                className="flex items-center gap-2 bg-black text-white px-5 py-3 rounded-2xl hover:bg-gray-800 transition"
+              >
                 <Plus size={20} />
                 Tambah Pendaki
               </button>
@@ -271,13 +374,13 @@ export default function UsersPage() {
                   setPage(1);
                 }}
                 className="
-      bg-transparent
-      outline-none
-      ml-3
-      w-full
-      text-black
-      placeholder:text-gray-500
-    "
+                bg-transparent
+                outline-none
+                ml-3
+                w-full
+                text-black
+                placeholder:text-gray-500
+                "
               />
             </div>
           </div>
