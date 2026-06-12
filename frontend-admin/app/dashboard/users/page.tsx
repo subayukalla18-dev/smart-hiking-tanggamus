@@ -41,7 +41,7 @@ export default function UsersPage() {
 
   const [totalUsers, setTotalUsers] = useState(0);
 
-  const [selectedUser, setSelectedUser] = useState<any>(null);
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
 
   const [showDetail, setShowDetail] = useState(false);
 
@@ -121,6 +121,7 @@ export default function UsersPage() {
       setTotalUsers(total);
 
       setTotalPages(Math.ceil(total / limit));
+      
     } catch (error: any) {
       console.log("ERROR USERS =", error?.response?.data || error);
     } finally {
@@ -544,7 +545,7 @@ export default function UsersPage() {
                         >
                           Detail
                         </button>
-                        
+
                         <button
                           onClick={() => handleEdit(user)}
                           className="bg-yellow-500 text-white px-4 py-2 rounded-xl hover:bg-yellow-600 transition"
