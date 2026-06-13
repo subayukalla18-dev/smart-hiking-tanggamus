@@ -9,7 +9,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UserService {
-  constructor(private prisma: PrismaService) { }
+  constructor(private prisma: PrismaService) {}
 
   async findAll(page = 1, limit = 10, search?: string) {
     // WHERE
@@ -18,21 +18,21 @@ export class UserService {
 
       ...(search
         ? {
-          OR: [
-            {
-              name: {
-                contains: search,
-                mode: 'insensitive' as const,
+            OR: [
+              {
+                name: {
+                  contains: search,
+                  mode: 'insensitive' as const,
+                },
               },
-            },
-            {
-              email: {
-                contains: search,
-                mode: 'insensitive' as const,
+              {
+                email: {
+                  contains: search,
+                  mode: 'insensitive' as const,
+                },
               },
-            },
-          ],
-        }
+            ],
+          }
         : {}),
     };
 

@@ -27,7 +27,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 @ApiBearerAuth('access-token')
 @Controller('users')
 export class UserController {
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService) {}
 
   @Get()
   @UseGuards(JwtAuthGuard, RolesGuard)
