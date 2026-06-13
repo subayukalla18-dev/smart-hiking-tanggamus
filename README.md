@@ -51,10 +51,8 @@ Sistem terdiri dari tiga komponen utama:
 * User Management
 * Booking Management
 * Search & Pagination
-* Verifikasi Pembayaran
 * Approve / Reject Booking
 * Tracking Pendaki
-* QR Scanner
 * Statistik Dashboard
 
 ---
